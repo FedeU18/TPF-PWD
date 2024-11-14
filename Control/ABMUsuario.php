@@ -82,6 +82,48 @@ class ABMUsuario
     return $resp;
   }
 
+public function borrar_rol($param){
+        $resp = false;
+        if(isset($param['idusuario']) && isset($param['idrol'])){
+            $elObjtTabla = new UsuarioRol();
+            $elObjtTabla->setearConClave($param['idusuario'],$param['idrol']);
+            $resp = $elObjtTabla->eliminar();
+            
+        }
+       
+        return $resp;
+        
+    }
+
+    public function alta_rol($param){
+        $resp = false;
+        if(isset($param['idusuario']) && isset($param['idrol'])){
+            $elObjtTabla = new UsuarioRol();
+            $elObjtTabla->setearConClave($param['idusuario'],$param['idrol']);
+            $resp = $elObjtTabla->insertar();
+           
+           
+
+        }
+        echo $resp;
+        return $resp;
+        
+    }
+
+    public function darRoles($param){
+        $where = " true ";
+        if ($param<>NULL){
+            if  (isset($param['idusuario']))
+                $where.=" and idusuario =".$param['idusuario'];
+            if  (isset($param['idrol']))
+                 $where.=" and idrol ='".$param['idrol']."'";
+        }
+        $obj = new UsuarioRol();
+        $arreglo = $obj->listar($where);
+        //echo "Van ".count($arreglo);
+        return $arreglo;
+    }
+
   public function buscar($param)
   {
     $where = "true";
