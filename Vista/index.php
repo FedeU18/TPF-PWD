@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-
-<body>
-  <h1>iniciando proyecto</h1>
-</body>
-
-</html>
+<?php
+$titulo = "Inicio";
+include_once "../estructura/header.php"
+?>
+<h1>iniciando proyecto</h1>
+<?php
+include_once "../estructura/footer.php"
+?>

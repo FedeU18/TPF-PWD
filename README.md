@@ -1,5 +1,6 @@
 Cosas por hacer
 
+-Estructura. Fede - en proceso
 -Formulario inicio de sesión. Fede - en proceso
 -Formulario de registro. Joaquin - en proceso
 
