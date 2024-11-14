@@ -1,5 +1,6 @@
 <?php
-$datos = data_submitted();
+include_once "../config.php";
+include_once "../estructura/header.php";
 
 $obj = new ABMUsuario();
 $listar = $obj->buscar(null);
@@ -37,3 +38,6 @@ $listar = $obj->buscar(null);
         ?>
     </tbody>
 </div>
+<?php
+include_once "../estructura/footer.php";
+?>
