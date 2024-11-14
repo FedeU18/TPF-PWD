@@ -1,0 +1,16 @@
+Cosas por hacer
+
+-Formulario inicio de sesión. Fede - en proceso
+-Formulario de registro. Joaquin - en proceso
+
+Cliente
+-Perfil.
+-Listado de los productos
+-Carrito
+-Pasarela de pagos (Stripe)
+-mail
+
+Administrador
+-Listado de productos (Crear, modificar y eliminar)
+-Cambiar el estado de la compra, envío de mail
+-Listado de usuarios (Eliminar) Ema - en proceso
