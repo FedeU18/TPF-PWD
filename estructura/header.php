@@ -16,8 +16,8 @@
     <div class="col-md-3 mb-2 mb-md-0">
     </div>
     <div class="col-md-3 text-end">
-      <button type="button" class="btn btn-outline-primary me-2">Login</button>
-      <button type="button" class="btn btn-primary">Sign-up</button>
+      <a href="../login/login.php" type="button" class="btn btn-outline-primary me-2">Inicar Sesión</a>
+      <a href="../registro/" type="button" class="btn btn-primary">Registrar</a>
     </div>
   </header>
   <div class="container mb-5"> <!-- Contenedor para el contenido principal -->
