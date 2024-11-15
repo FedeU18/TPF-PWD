@@ -1,5 +1,4 @@
 <?php
-// Asegurar que las sesiones están habilitadas
 session_start();
 
 // Verificar si el usuario está autenticado
@@ -8,19 +7,21 @@ if (!isset($_SESSION['idusuario'])) {
     exit;
 }
 
-// Incluir configuraciones y clases necesarias
+// Obtener el ID del usuario desde la sesión
+$idUsuario = $_SESSION['idusuario'];
+
 include_once "../../config.php";
 
-// Obtener los datos del usuario desde la base de datos
-$idUsuario = $_SESSION['idusuario'];
 $objUsuario = new ABMUsuario();
 $usuario = $objUsuario->buscar(['idusuario' => $idUsuario]);
 
 if (!$usuario) {
     die("Usuario no encontrado.");
 }
-$usuario = $usuario[0]; // El método buscar retorna un array, tomamos el primer elemento
+
+$usuario = $usuario[0];
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -42,7 +43,7 @@ $usuario = $usuario[0]; // El método buscar retorna un array, tomamos el primer
         <?php endif; ?>
 
         <!-- Formulario para editar perfil -->
-        <form action="actualizar_perfil.php" method="post" class="mt-4">
+        <form action="action.php" method="post" class="mt-4">
             <input type="hidden" name="idusuario" value="<?= $usuario->getIdUsuario(); ?>">
 
             <div class="mb-3">
