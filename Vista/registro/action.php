@@ -17,13 +17,13 @@ $usuarios = $objUsuario->buscar(null);
 $encontrado = false;
 
 foreach($usuarios as $usuario){
-    if($usuario->getusnombre() == $datos['usnombre']) {
+    if($usuario->getusnombre() === $datos['usnombre']) {
         $mensaje = "El usuario ya existe";
         $encontrado = true;
         header("Location: index.php?mensaje=$mensaje");
         exit;
     }
-    if($usuario->getusmail() == $datos['email']) {
+    if($usuario->getusmail() === $datos['email']) {
         $mensaje = "El correo ya existe";
         $encontrado = true;
         header("Location: index.php?mensaje=$mensaje");
