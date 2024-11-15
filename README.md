@@ -5,7 +5,7 @@ Cosas por hacer
 -Formulario de registro. Joaquin - Para revisar
 
 Cliente
--Perfil.
+-Perfil. Joaquin - En proceso
 -Listado de los productos
 -Carrito
 -Pasarela de pagos (Stripe)
