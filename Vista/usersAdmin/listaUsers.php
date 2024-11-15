@@ -1,7 +1,7 @@
 <?php
 $Titulo = " Gestion de Usuarios";
-include_once("../estructura/header.php");
-include_once "../config.php";
+include_once("../../estructura/header.php");
+include_once "../../config.php";
 $datos = data_submitted();
 
 $obj= new ABMUsuario();
@@ -10,15 +10,6 @@ $lista = $obj->buscar(null);
 ?>
 <div class="container mt-5">
     <h3 class="text-primary text-center">ABM - Roles de Usuarios</h3>
-    <div class="row">
-        <div class="col-md-12">
-            <?php 
-            if(isset($datos) && isset($datos['msg']) && $datos['msg']!=null) {
-                echo '<div class="alert alert-info">' . $datos['msg'] . '</div>';
-            }
-            ?>
-        </div>
-    </div>
 
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover">
@@ -40,7 +31,7 @@ $lista = $obj->buscar(null);
                         echo '<td>' . $objTabla->getusnombre() . '</td>';
                         echo '<td>' . $objTabla->getusmail() . '</td>';
                         echo '<td>' . $objTabla->getusdeshabilitado() . '</td>';
-                        echo '<td><a class="btn btn-primary btn-sm" role="button" href="./Action/editar.php?Action=editar&idusuario=' . $objTabla->getidusuario() . '">Roles</a></td>';
+                        echo '<td><a class="btn btn-primary btn-sm" role="button" href="./editar.php?editar=editar&idusuario=' . $objTabla->getidusuario() . '">Roles</a></td>';
                         echo '</tr>';
                     }
                 } else {
@@ -54,5 +45,5 @@ $lista = $obj->buscar(null);
 
 <?php
 
-include_once("../estructura/footer.php");
+include_once("../../estructura/footer.php");
 ?>

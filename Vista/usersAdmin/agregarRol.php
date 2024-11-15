@@ -15,5 +15,5 @@ if (isset($datos['idusuario']) && isset($datos['idrol'])) {
     $mensaje = "Datos insuficientes para asignar el rol.";
 }
 
-echo "<script>location.href='../listaUsers.php?msg=" . htmlspecialchars($mensaje) . "';</script>";
+echo "<script>location.href='./listaUsers.php?msg=" . htmlspecialchars($mensaje) . "';</script>";
 ?>
