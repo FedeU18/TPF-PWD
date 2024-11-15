@@ -3,19 +3,21 @@ $Titulo = "Usuario Rol";
 include_once("../../estructura/header.php");
 include_once("../../config.php");
 
-$datos = data_submitted();
+$datosIngresados = data_submitted();
 
-$objC = new ABMUsuario();
-$obj = null;
-if (isset($datos['idusuario']) && $datos['idusuario'] != -1) {
-    $listaTabla = $objC->darRoles($datos);
-    if (count($listaTabla) == 1) {
-        $obj = $listaTabla[0];
+$abmUsuario = new ABMUsuario();
+$usuarioRoles = null;
+
+//verifica si hay un idusuario valido para buscar los roles
+if (isset($datosIngresados['idusuario']) && $datosIngresados['idusuario'] != -1) {
+    $listaRolesAsignados = $abmUsuario->darRoles($datosIngresados);
+    if (count($listaRolesAsignados) == 1) {
+        $usuarioRoles = $listaRolesAsignados[0];
     }
 }
 
-$objr = new ABMRol();
-$listaRol = $objr->buscar(null);
+$abmRol = new ABMRol();
+$listaRolesDisponibles = $abmRol->buscar(null);
 ?>
 
 <div class="container my-4">
@@ -24,8 +26,8 @@ $listaRol = $objr->buscar(null);
     <div class="row">
         <div class="col-md-12">
             <?php 
-            if (isset($datos['msg']) && $datos['msg'] != null) {
-                echo '<div class="alert alert-info">' . htmlspecialchars($datos['msg']) . '</div>';
+            if (isset($datosIngresados['msg']) && $datosIngresados['msg'] != null) {
+                echo '<div class="alert alert-info">' . htmlspecialchars($datosIngresados['msg']) . '</div>';
             }
             ?>
         </div>
@@ -34,9 +36,9 @@ $listaRol = $objr->buscar(null);
     <div class="row float-right mb-3">
         <div class="col-md-12">
             <?php 
-            if (count($listaRol) > 0) {
-                foreach ($listaRol as $obj) {
-                    echo '<a class="btn btn-primary btn-sm m-1" role="button" href="./agregarRol.php?accion=nuevoRol&idrol=' . $obj->getidrol() . '&idusuario=' . htmlspecialchars($datos['idusuario']) . '">Agregar Rol ' . htmlspecialchars($obj->getrodescripcion()) . '</a>';
+            if (count($listaRolesDisponibles) > 0) {
+                foreach ($listaRolesDisponibles as $rolDisponible) {
+                    echo '<a class="btn btn-primary btn-sm m-1" role="button" href="./agregarRol.php?accion=nuevoRol&idrol=' . $rolDisponible->getidrol() . '&idusuario=' . htmlspecialchars($datosIngresados['idusuario']) . '">Agregar Rol ' . htmlspecialchars($rolDisponible->getrodescripcion()) . '</a>';
                 }
             }
             ?>
@@ -54,12 +56,12 @@ $listaRol = $objr->buscar(null);
             </thead>
             <tbody>
                 <?php
-                if (count($listaTabla) > 0) {
-                    foreach ($listaTabla as $objTabla) {
+                if (count($listaRolesAsignados) > 0) {
+                    foreach ($listaRolesAsignados as $rolAsignado) {
                         echo '<tr>';
-                        echo '<td>' . htmlspecialchars($objTabla->getidrol()) . '</td>';
-                        echo '<td>' . htmlspecialchars($obj->getrodescripcion()) . '</td>';
-                        echo '<td><a class="btn btn-primary btn-sm" role="button" href="./borrarRol.php?Action=borrarRol&idusuario=' . htmlspecialchars($objTabla->getidusuario()) . '&idrol=' . htmlspecialchars($objTabla->getidrol()) . '">Borrar</a></td>';
+                        echo '<td>' . htmlspecialchars($rolAsignado->getidrol()) . '</td>';
+                        echo '<td>' . htmlspecialchars($rolAsignado->getrodescripcion()) . '</td>';
+                        echo '<td><a class="btn btn-primary btn-sm" role="button" href="./borrarRol.php?Action=borrarRol&idusuario=' . htmlspecialchars($rolAsignado->getidusuario()) . '&idrol=' . htmlspecialchars($rolAsignado->getidrol()) . '">Borrar</a></td>';
                         echo '</tr>';
                     }
                 } else {
