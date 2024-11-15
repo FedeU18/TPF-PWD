@@ -1,43 +1,58 @@
 <?php
+$Titulo = " Gestion de Usuarios";
+include_once("../estructura/header.php");
 include_once "../config.php";
-include_once "../estructura/header.php";
+$datos = data_submitted();
 
-$obj = new ABMUsuario();
-$listar = $obj->buscar(null);
+$obj= new ABMUsuario();
+$lista = $obj->buscar(null);
 
 ?>
-<h2>Roles de Usuarios</h2>
-
-<div>
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Deshabilitado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-    </table>
-    <tbody>
-        <?php
-        if(count($listar)>0){
-            foreach($listar as $obj){
-                echo '<tr>';
-                    echo '<td>' . htmlspecialchars($obj->getidusuario()) . '</td>';
-                    echo '<td>' . htmlspecialchars($obj->getusnombre()) . '</td>';
-                    echo '<td>' . htmlspecialchars($obj->getusmail()) . '</td>';
-                    echo '<td>'. htmlspecialchars($obj->getusdeshabilitado()) .'</td>';
-                    echo '<td><a role="button" href="Action/editar.php?Action=editar&idusuario=' . htmlspecialchars($obj->getidusuario()) . '">Roles</a></td>';
-                    echo '</tr>';
-                }
-            } else {
-                echo '<tr><td colspan="5">No se encontraron usuarios.</td></tr>';
+<div class="container mt-5">
+    <h3 class="text-primary text-center">ABM - Roles de Usuarios</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <?php 
+            if(isset($datos) && isset($datos['msg']) && $datos['msg']!=null) {
+                echo '<div class="alert alert-info">' . $datos['msg'] . '</div>';
             }
-        ?>
-    </tbody>
+            ?>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Deshabilitado</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if(count($lista) > 0){
+                    foreach($lista as $objTabla) {
+                        echo '<tr>';
+                        echo '<td>' . $objTabla->getidusuario() . '</td>';
+                        echo '<td>' . $objTabla->getusnombre() . '</td>';
+                        echo '<td>' . $objTabla->getusmail() . '</td>';
+                        echo '<td>' . $objTabla->getusdeshabilitado() . '</td>';
+                        echo '<td><a class="btn btn-primary btn-sm" role="button" href="./Action/editar.php?Action=editar&idusuario=' . $objTabla->getidusuario() . '">Roles</a></td>';
+                        echo '</tr>';
+                    }
+                } else {
+                    echo '<tr><td colspan="5" class="text-center text-muted">No se encontraron usuarios.</td></tr>';
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
 </div>
+
 <?php
-include_once "../estructura/footer.php";
+
+include_once("../estructura/footer.php");
 ?>
