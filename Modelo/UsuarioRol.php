@@ -21,11 +21,10 @@ class UsuarioRol extends BaseDatos
     $this->setidrol($idrol);
   }
 
-  public function setearConClave($idusuario, $idjrol)
-  {
-      $this->getidrol()->setidrol($idjrol);
-      $this->getidusuario()->setidusuario($idusuario);
-  }
+  public function setearConClave($idusuario, $idrol) {
+    $this->idusuario = $idusuario;
+    $this->idrol = $idrol;
+}
 
   public function getidusuario()
   {

@@ -57,9 +57,9 @@ $listaRol = $objr->buscar(null);
                 if (count($listaTabla) > 0) {
                     foreach ($listaTabla as $objTabla) {
                         echo '<tr>';
-                        echo '<td>' . htmlspecialchars($objTabla->getidrol()->getidrol()) . '</td>';
-                        echo '<td>' . htmlspecialchars($objTabla->getidrol()->getrodescripcion()) . '</td>';
-                        echo '<td><a class="btn btn-info btn-sm" role="button" href="accion.php?accion=borrar_rol&idusuario=' . htmlspecialchars($objTabla->getidusuario()->getidusuario()) . '&idrol=' . htmlspecialchars($objTabla->getidrol()->getidrol()) . '">Borrar</a></td>';
+                        echo '<td>' . htmlspecialchars($objTabla->getidrol()) . '</td>';
+                        echo '<td>' . htmlspecialchars($obj->getrodescripcion()) . '</td>';
+                        echo '<td><a class="btn btn-info btn-sm" role="button" href="./borrarRol.php?Action=borrarRol&idusuario=' . htmlspecialchars($objTabla->getidusuario()) . '&idrol=' . htmlspecialchars($objTabla->getidrol()) . '">Borrar</a></td>';
                         echo '</tr>';
                     }
                 } else {

@@ -82,7 +82,7 @@ class ABMUsuario
     return $resp;
   }
 
-public function borrar_rol($param){
+  public function borrarRol($param){
         $resp = false;
         if(isset($param['idusuario']) && isset($param['idrol'])){
             $elObjtTabla = new UsuarioRol();
@@ -120,7 +120,6 @@ public function borrar_rol($param){
         }
         $obj = new UsuarioRol();
         $arreglo = $obj->listar($where);
-        //echo "Van ".count($arreglo);
         return $arreglo;
     }
 
