@@ -3,15 +3,15 @@ INSERT INTO
 VALUES
   (
     1,
-    'Cliente - Usuario común que utiliza los servicios'
+    'Cliente'
   ),
   (
     2,
-    'Administrador - Usuario con acceso completo al sistema'
+    'Administrador'
   ),
   (
     3,
-    'Depósito - Usuario encargado de la gestión de inventarios'
+    'Depósito'
   );
 
 INSERT INTO
