@@ -19,6 +19,17 @@ class ABMUsuario
         $resp = true;
       }
     }
+    if($datos['accion']=='borrarRol'){
+      if($this->borrarRol($datos)){
+            $resp =true;
+      }
+    }
+    if($datos['accion']=='nuevoRol'){
+      if($this->nuevoRol($datos)){
+            $resp =true;
+      }
+    } 
+
     return $resp;
   }
 
@@ -95,7 +106,7 @@ class ABMUsuario
         
     }
 
-    public function alta_rol($param){
+    public function nuevoRol($param){
         $resp = false;
         if(isset($param['idusuario']) && isset($param['idrol'])){
             $elObjtTabla = new UsuarioRol();
@@ -105,9 +116,7 @@ class ABMUsuario
            
 
         }
-        echo $resp;
         return $resp;
-        
     }
 
     public function darRoles($param){

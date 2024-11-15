@@ -36,7 +36,7 @@ $listaRol = $objr->buscar(null);
             <?php 
             if (count($listaRol) > 0) {
                 foreach ($listaRol as $obj) {
-                    echo '<a class="btn btn-success btn-sm m-1" role="button" href="accion.php?accion=nuevo_rol&idrol=' . $obj->getidrol() . '&idusuario=' . htmlspecialchars($datos['idusuario']) . '">Agregar Rol ' . htmlspecialchars($obj->getrodescripcion()) . '</a>';
+                    echo '<a class="btn btn-primary btn-sm m-1" role="button" href="./agregarRol.php?accion=nuevoRol&idrol=' . $obj->getidrol() . '&idusuario=' . htmlspecialchars($datos['idusuario']) . '">Agregar Rol ' . htmlspecialchars($obj->getrodescripcion()) . '</a>';
                 }
             }
             ?>
@@ -48,7 +48,7 @@ $listaRol = $objr->buscar(null);
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
+                    <th scope="col">Rol</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
@@ -59,7 +59,7 @@ $listaRol = $objr->buscar(null);
                         echo '<tr>';
                         echo '<td>' . htmlspecialchars($objTabla->getidrol()) . '</td>';
                         echo '<td>' . htmlspecialchars($obj->getrodescripcion()) . '</td>';
-                        echo '<td><a class="btn btn-info btn-sm" role="button" href="./borrarRol.php?Action=borrarRol&idusuario=' . htmlspecialchars($objTabla->getidusuario()) . '&idrol=' . htmlspecialchars($objTabla->getidrol()) . '">Borrar</a></td>';
+                        echo '<td><a class="btn btn-primary btn-sm" role="button" href="./borrarRol.php?Action=borrarRol&idusuario=' . htmlspecialchars($objTabla->getidusuario()) . '&idrol=' . htmlspecialchars($objTabla->getidrol()) . '">Borrar</a></td>';
                         echo '</tr>';
                     }
                 } else {
