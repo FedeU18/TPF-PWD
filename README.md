@@ -1,12 +1,12 @@
 Cosas por hacer
 
--Estructura. Fede - en proceso
+-Estructura. Fede - terminado
 -Formulario inicio de sesión. Fede - en proceso
 -Formulario de registro. Joaquin - Para revisar
 
 Cliente
 -Perfil. Joaquin - En proceso
--Listado de los productos
+-Listado de los productos. Fede - En prodceso
 -Carrito
 -Pasarela de pagos (Stripe)
 -mail
