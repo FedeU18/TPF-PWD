@@ -1,6 +1,8 @@
 <?php
 include_once "../../config.php";
 $titulo = "Iniciar sesión";
+$session = new Session();
+$session->cerrar();
 include_once "../../estructura/header.php";
 ?>
 

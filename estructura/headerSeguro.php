@@ -16,7 +16,7 @@ $resp = $session->validar();
 if ($resp) {
 } else {
   $mensaje = "Error, vualva a intentarlo";
-  echo "<script>location.href = '../index.php?msg=" . $mensaje . "';</script>";
+  echo "<script>location.href = '../login/login.php?msg=" . $mensaje . "';</script>";
 }
 ?>
 
