@@ -25,8 +25,7 @@ if ($resp) {
     <div class="col-md-3 mb-2 mb-md-0">
     </div>
     <div class="col-md-3 text-end">
-      <button type="button" class="btn btn-outline-primary me-2">Login</button>
-      <button type="button" class="btn btn-primary">Sign-up</button>
+      <button type="button" class="btn btn-outline-primary me-2">Cerrar Sesión</button>
     </div>
   </header>
   <div class="container mb-5">
