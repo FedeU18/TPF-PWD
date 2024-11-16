@@ -25,9 +25,12 @@ if ($resp) {
     <div class="col-md-3 mb-2 mb-md-0">
       <a href="../productos/productos.php">ACÁ IRÍA EL LOGO</a>
     </div>
-    <div class="col-md-3 text-end">
-      <a href="../perfil/" type="button" class="btn btn-outline-primary me-2">Mi Perfil</a>
-      <a href="../login/login.php" type="button" class="btn btn-primary">Cerrar Sesión</a>
+    <div class="col-md-3 d-flex flex-row text-end">
+      <a href="../perfil/" type="button" class="btn btn-outline-primary mr-2">Mi Perfil</a>
+      <form action="../login/action.php" method="get">
+        <input type="hidden" name="accion" value="cerrar">
+        <input href="../login/login.php" type="submit" class="btn btn-primary" value="Cerrar Sesión">
+      </form>
     </div>
   </header>
   <div class="container mb-5">

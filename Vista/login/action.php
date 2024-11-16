@@ -21,10 +21,8 @@ if (isset($datos['accion'])) {
 
   if ($datos['accion'] == "cerrar") {
     $resp = $objTrans->cerrar();
-    if ($resp) {
-      $mensaje = "Has cerrado sesión correctamente.";
-      header("Location: index.php?msg=" . urlencode($mensaje));
-      exit;
-    }
+    $mensaje = "Has cerrado sesión correctamente.";
+    header("Location: ../inicio/inicio.php?msg=" . urlencode($mensaje));
+    exit;
   }
 }
