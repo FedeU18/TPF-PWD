@@ -35,7 +35,7 @@ include_once "../../estructura/header.php";
       </div>
     </div>
   </div>
-  <button type="button" id="btnLogin" class="btn btn-primary btn-block">Validar</button>
+  <button type="button" id="btnLogin" class="btn btn-primary btn-block">Iniciar Sesión</button>
 </form>
 <script>
   $(document).ready(function() {
