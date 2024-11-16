@@ -14,7 +14,7 @@ include_once "../../estructura/header.php";
 <?php endif; ?>
 <form method="post" action="action.php" name="formulario" id="formulario">
   <input id="accion" name="accion" value="login" type="hidden">
-  <div id="mensaje" class="mb-3"></div> <!-- Contenedor para mensajes -->
+  <div id="mensaje" class="mb-3"></div>
   <div class="row mb-3">
     <div class="col-sm-3 ">
       <div class="form-group has-feedback">
@@ -40,15 +40,16 @@ include_once "../../estructura/header.php";
 <script>
   $(document).ready(function() {
     $("#btnLogin").click(function(e) {
-      e.preventDefault(); // Evitar el envío del formulario por defecto
+      e.preventDefault();
 
-      // Recopilar los datos del formulario
+      //recopilar los datos del formulario
       let datosFormulario = {
+        accion: $("#accion").val(),
         usnombre: $("#usnombre").val(),
         uspass: $("#uspass").val(),
       };
 
-      // Validar campos vacíos antes de enviar
+      //validar campos vacíos antes de enviar
       if (!datosFormulario.usnombre || !datosFormulario.uspass) {
         $("#mensaje").html(
           '<div class="alert alert-danger">Por favor, complete todos los campos.</div>'
@@ -56,7 +57,7 @@ include_once "../../estructura/header.php";
         return;
       }
 
-      // Enviar datos con AJAX
+      //vnviar datos con AJAX
       $.ajax({
         url: "action.php",
         type: "POST",
@@ -64,10 +65,10 @@ include_once "../../estructura/header.php";
         dataType: "json",
         success: function(respuesta) {
           if (respuesta.success) {
-            // Redirigir si es exitoso
+            //redirigir si es exitoso
             window.location.href = respuesta.redirect;
           } else {
-            // Mostrar mensaje de error
+            //mostrar mensaje de error caso contrario
             $("#mensaje").html(
               `<div class="alert alert-danger">${respuesta.msg}</div>`
             );
