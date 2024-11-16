@@ -57,7 +57,7 @@ if ($encontrado == false) {
         $idUsuarioCreado = $objUsuario->buscar(["usnombre" => $datos['usnombre']])[0]->getIdUsuario();
 
 
-        $idRolCliente = 2;
+        $idRolCliente = 1;
 
         // Crear el registro en usuariorol
         $nuevoUsuarioRol = [
