@@ -70,7 +70,7 @@ class Session
       $usuarioRoles = $abmUserRol->buscar(['idusuario' => $idUsuario]);
 
       if (!empty($usuarioRoles)) {
-        $rol = $usuarioRoles[0]->getidrol()->getidrol();  //asignar rol
+        $rol = $usuarioRoles[0]->getidrol();  //asignar rol
       }
     }
     return $rol;
