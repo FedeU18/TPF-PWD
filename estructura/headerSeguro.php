@@ -23,9 +23,11 @@ if ($resp) {
 <body class="d-flex flex-column min-vh-100">
   <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
     <div class="col-md-3 mb-2 mb-md-0">
+      <a href="../productos/productos.php">ACÁ IRÍA EL LOGO</a>
     </div>
     <div class="col-md-3 text-end">
-      <button type="button" class="btn btn-outline-primary me-2">Cerrar Sesión</button>
+      <a href="../perfil/" type="button" class="btn btn-outline-primary me-2">Mi Perfil</a>
+      <a href="../login/login.php" type="button" class="btn btn-primary">Cerrar Sesión</a>
     </div>
   </header>
   <div class="container mb-5">
