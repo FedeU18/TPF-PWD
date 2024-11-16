@@ -9,6 +9,9 @@ include_once "../../estructura/header.php";
 <?php if (isset($_GET['msg'])): ?>
   <div class="alert alert-danger"><?php echo htmlspecialchars($_GET['msg']); ?></div>
 <?php endif; ?>
+<?php if (isset($_GET['mensaje'])): ?>
+  <div class="alert alert-info"><?php echo htmlspecialchars($_GET['mensaje']); ?></div>
+<?php endif; ?>
 
 <form method="post" action="action.php" name="formulario" id="formulario">
   <input id="accion" name="accion" value="login" type="hidden">
