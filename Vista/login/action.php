@@ -1,8 +1,8 @@
 <?php
 include_once "../../config.php";
-include_once("../../estructura/header.php");
 $datos = data_submitted();
 $resp = false;
+$response = ["success" => false, "msg" => "Acción no válida."];
 
 if (isset($datos['accion'])) {
   $objTrans = new Session();
@@ -10,16 +10,17 @@ if (isset($datos['accion'])) {
   if ($datos['accion'] == "login") {
     $resp = $objTrans->iniciar($datos['usnombre'], $datos['uspass']);
     if ($resp) {
-      header("Location: ../productos/productos.php");
-      exit;
+      $response = [
+        "success" => true,
+        "redirect" => "../productos/productos.php"
+      ];
     } else {
-      $mensaje = "Usuario o contraseña incorrectos.";
-      header("Location: login.php?msg=" . urlencode($mensaje));
-      exit;
+      $response["msg"] = "Usuario o contraseña incorrectos.";
     }
-  }
-
-  if ($datos['accion'] == "cerrar") {
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+  } else if ($datos['accion'] == "cerrar") {
     $resp = $objTrans->cerrar();
     $mensaje = "Has cerrado sesión correctamente.";
     header("Location: ../inicio/inicio.php?msg=" . urlencode($mensaje));
