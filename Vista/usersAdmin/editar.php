@@ -18,12 +18,11 @@ if (isset($datosIngresados['idusuario']) && $datosIngresados['idusuario'] != -1)
 
 $abmRol = new ABMRol();
 $listaRolesDisponibles = $abmRol->buscar(null);
-// Crear un índice de descripciones basadas en los IDs de los roles disponibles
+//crear un indice de descripciones basadas en los ids de los roles disponibles
 $rolesDescripcion = [];
 foreach ($listaRolesDisponibles as $rolDisponible) {
   $rolesDescripcion[$rolDisponible->getidrol()] = $rolDisponible->getrodescripcion();
 }
-print_r($rolesDescripcion)
 ?>
 
 <div class="container my-4">
@@ -67,8 +66,8 @@ print_r($rolesDescripcion)
 
             echo '<tr>';
             echo '<td>' . htmlspecialchars($rolAsignado->getidrol()) . '</td>';
-            echo '<td>' . htmlspecialchars($rolesDescripcion[$rolAsignado->getidrol()]) . '</td>'; //acá está el error
-            echo '<td><a class="btn btn-primary btn-sm" role="button" href="./borrarRol.php?Action=borrarRol&idusuario=' . htmlspecialchars($rolAsignado->getidusuario()) . '&idrol=' . htmlspecialchars($rolAsignado->getidrol()) . '">Borrar</a></td>';
+            echo '<td>' . htmlspecialchars($rolesDescripcion[$rolAsignado->getidrol()]) . '</td>';
+            echo '<td><a class="btn btn-primary btn-sm" role="button" href="./borrarRol.php?borrarRol=borrarRol&idusuario=' . htmlspecialchars($rolAsignado->getidusuario()) . '&idrol=' . htmlspecialchars($rolAsignado->getidrol()) . '">Borrar</a></td>';
             echo '</tr>';
           }
         } else {
@@ -79,7 +78,7 @@ print_r($rolesDescripcion)
     </table>
   </div>
 
-  <a href="../listaUsers.php" class="btn btn-secondary mt-3">Volver</a>
+  <a href="./listaUsers.php" class="btn btn-secondary mt-3">Volver</a>
 </div>
 
 <?php

@@ -5,7 +5,7 @@ Cosas por hacer
 -Formulario de registro. Joaquin - Para revisar
 
 Cliente
--Perfil.
+-Perfil. Joaquin - En proceso
 -Listado de los productos
 -Carrito
 -Pasarela de pagos (Stripe)
@@ -14,6 +14,6 @@ Cliente
 Administrador
 -Listado de productos (Crear, modificar y eliminar)
 -Cambiar el estado de la compra, envío de mail
--Listado de usuarios (Eliminar) Ema - en proceso
+-Listado de usuarios (Eliminar) Ema - falta deshabilitar
 
 Deposito
