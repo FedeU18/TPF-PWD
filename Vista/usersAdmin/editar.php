@@ -1,7 +1,7 @@
 <?php
 $Titulo = "Usuario Rol";
-include_once("../../estructura/header.php");
 include_once("../../config.php");
+include_once("../../estructura/headerSeguro.php");
 
 $datosIngresados = data_submitted();
 
@@ -43,7 +43,7 @@ foreach ($listaRolesDisponibles as $rolDisponible) {
       <?php
       if (count($listaRolesDisponibles) > 0) {
         foreach ($listaRolesDisponibles as $rolDisponible) {
-          echo '<a class="btn btn-primary btn-sm m-1" role="button" href="./agregarRol.php?accion=nuevoRol&idrol=' . $rolDisponible->getidrol() . '&idusuario=' . htmlspecialchars($datosIngresados['idusuario']) . '">Agregar Rol ' . htmlspecialchars($rolDisponible->getrodescripcion()) . '</a>';
+          echo '<a class="btn btn-primary btn-sm m-1" role="button" href="./agregarRolAction.php?accion=nuevoRol&idrol=' . $rolDisponible->getidrol() . '&idusuario=' . htmlspecialchars($datosIngresados['idusuario']) . '">Agregar Rol ' . htmlspecialchars($rolDisponible->getrodescripcion()) . '</a>';
         }
       }
       ?>
@@ -67,7 +67,7 @@ foreach ($listaRolesDisponibles as $rolDisponible) {
             echo '<tr>';
             echo '<td>' . htmlspecialchars($rolAsignado->getidrol()) . '</td>';
             echo '<td>' . htmlspecialchars($rolesDescripcion[$rolAsignado->getidrol()]) . '</td>';
-            echo '<td><a class="btn btn-primary btn-sm" role="button" href="./borrarRol.php?borrarRol=borrarRol&idusuario=' . htmlspecialchars($rolAsignado->getidusuario()) . '&idrol=' . htmlspecialchars($rolAsignado->getidrol()) . '">Borrar</a></td>';
+            echo '<td><a class="btn btn-primary btn-sm" role="button" href="./borrarRolAction.php?borrarRol=borrarRol&idusuario=' . htmlspecialchars($rolAsignado->getidusuario()) . '&idrol=' . htmlspecialchars($rolAsignado->getidrol()) . '">Borrar</a></td>';
             echo '</tr>';
           }
         } else {
