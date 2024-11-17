@@ -13,7 +13,7 @@ Cliente
 
 Administrador
 -Listado de productos (Crear, modificar y eliminar)
--Cambiar el estado de la compra, envío de mail
+-Cambiar el estado de la compra, envío de mail Mema - en proceso
 -Listado de usuarios (Eliminar) Ema - falta ajax
 
 Deposito
