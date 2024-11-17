@@ -108,6 +108,7 @@ class Session
     }
   }
 
+
   //vaciar el carrito
   public function vaciarCarrito()
   {
@@ -115,9 +116,9 @@ class Session
   }
 
   //obtener los productos del carrito
-  public function obtenerCarrito()
+  public function obtenerProductosCarrito()
   {
-    return $_SESSION['carrito'];
+    return $_SESSION['carrito'] ?? []; // Devuelve el carrito o un array vacío
   }
 
   //obtener el total de productos en el carrito
