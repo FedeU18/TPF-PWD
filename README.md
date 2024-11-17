@@ -1,21 +1,21 @@
 Cosas por hacer
 
 -Estructura. Fede - terminado
--Formulario inicio de sesión. Fede - en proceso
--Formulario de registro. Joaquin - Para revisar
+-Formulario inicio de sesión. Fede - terminado
+-Formulario de registro. Joaquin - falta ajax
 
 Cliente
--Perfil. Joaquin - En proceso
+-Perfil. Joaquin - falta ajax
+-Ver compras
 -Listado de los productos. Fede - En proceso
 -Carrito
 -Pasarela de pagos (Stripe)
--mail
 
 Administrador
 -Listado de productos (Crear, modificar y eliminar)
--Cambiar el estado de la compra, envío de mail Mema - en proceso
 -Listado de usuarios (Eliminar) Ema - falta ajax
 
 Deposito
 -Listado de compras.
 -Manejo de el estado de compras.
+-Cambiar el estado de la compra, envío de mail Mema - en proceso
