@@ -34,7 +34,7 @@ if ($resp) {
       <?php
       }
       ?>
-      <a href="../productos/productos" type="button" class="btn btn-outline-primary mr-2">Productos</a>
+      <a href="../productos/productos.php" type="button" class="btn btn-outline-primary mr-2">Productos</a>
       <a href="../perfil/" type="button" class="btn btn-outline-primary mr-2">Mi Perfil</a>
       <form action="../login/action.php" method="get">
         <input type="hidden" name="accion" value="cerrar">
