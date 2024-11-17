@@ -35,28 +35,36 @@ $usuario = $usuario[0];
 
     <!-- Formulario para editar perfil -->
     <form action="action.php" method="post" class="mt-4">
-      <input type="hidden" name="idusuario" value="<?= $usuario->getIdUsuario(); ?>">
+  <input type="hidden" name="idusuario" value="<?= $usuario->getIdUsuario(); ?>">
 
-      <div class="mb-3">
-        <label for="usnombre" class="form-label">Nombre de Usuario</label>
-        <input type="text" class="form-control" id="usnombre" name="usnombre" value="<?= htmlspecialchars($usuario->getusnombre()); ?>" required>
-      </div>
+  <div class="mb-3">
+    <label for="usnombre" class="form-label">Nombre de Usuario</label>
+    <input type="text" class="form-control" id="usnombre" name="usnombre" value="<?= htmlspecialchars($usuario->getusnombre()); ?>" required>
+  </div>
 
-      <div class="mb-3">
-        <label for="usmail" class="form-label">Correo Electrónico</label>
-        <input type="email" class="form-control" id="usmail" name="usmail" value="<?= htmlspecialchars($usuario->getusmail()); ?>" required>
-      </div>
+  <div class="mb-3">
+    <label for="usmail" class="form-label">Correo Electrónico</label>
+    <input type="email" class="form-control" id="usmail" name="usmail" value="<?= htmlspecialchars($usuario->getusmail()); ?>" required>
+  </div>
 
-      <div class="mb-3">
-        <label for="uspass" class="form-label">Nueva Contraseña</label>
-        <input type="password" class="form-control" id="uspass" name="uspass" placeholder="Dejar en blanco para no cambiar">
-      </div>
+  <!-- <div class="mb-3">
+    <label for="uspass_actual" class="form-label">Contraseña Actual</label>
+    <input type="password" class="form-control" id="uspass_actual" name="uspass_actual" placeholder="Ingrese su contraseña actual para cambiar contraseña">
+  </div>
 
-      <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-    </form>
+  <div class="mb-3">
+    <label for="uspass" class="form-label">Nueva Contraseña</label>
+    <input type="password" class="form-control" id="uspass" name="uspass" placeholder="Deje en blanco si no desea cambiarla">
+  </div> -->
 
-    <hr class="mt-4">
-    <a href="logout.php" class="btn btn-danger">Cerrar Sesión</a>
+  <a href="cambioContraseña.php" class="btn btn-danger">Cambiar Contraseña</a>
+  
+  <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+
+</form>
+
+
+    
   </div>
 </body>
 
