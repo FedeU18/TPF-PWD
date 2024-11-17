@@ -16,7 +16,6 @@ class Session
   {
     $resp = false;
     $obj = new ABMUsuario();
-
     $param = [
       "usnombre" => $nombreUser,
       // "uspass" => $psw,
@@ -81,5 +80,65 @@ class Session
   {
     session_unset();
     session_destroy();
+  }
+
+
+  //funcionalidades del Carrito 
+
+  //agregar un producto al carrito
+  public function agregarAlCarrito($idProducto, $cantidad)
+  {
+    if (!isset($_SESSION['carrito'])) {
+      $_SESSION['carrito'] = [];
+    }
+
+    if (isset($_SESSION['carrito'][$idProducto])) {
+      $_SESSION['carrito'][$idProducto] += $cantidad;
+    } else {
+      $_SESSION['carrito'][$idProducto] = $cantidad;
+    }
+  }
+
+
+  //eliminar un producto del carrito
+  public function eliminarDelCarrito($idProducto)
+  {
+    if (isset($_SESSION['carrito'][$idProducto])) {
+      unset($_SESSION['carrito'][$idProducto]);
+    }
+  }
+
+  //vaciar el carrito
+  public function vaciarCarrito()
+  {
+    $_SESSION['carrito'] = [];
+  }
+
+  //obtener los productos del carrito
+  public function obtenerCarrito()
+  {
+    return $_SESSION['carrito'];
+  }
+
+  //obtener el total de productos en el carrito
+  public function totalProductosCarrito()
+  {
+    if (!isset($_SESSION['carrito'])) {
+      return 0;
+    }
+
+    $total = 0;
+    foreach ($_SESSION['carrito'] as $cantidad) {
+      $total += $cantidad;
+    }
+
+    return $total;
+  }
+
+
+  //obtener la cantidad de un producto específico en el carrito
+  public function cantidadProductoEnCarrito($idProducto)
+  {
+    return $_SESSION['carrito'][$idProducto] ?? 0;
   }
 }
