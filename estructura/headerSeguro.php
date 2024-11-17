@@ -14,6 +14,7 @@
 $session = new Session();
 $resp = $session->validar();
 if ($resp) {
+  $rol = $session->getRol();
 } else {
   $mensaje = "Error, vuelva a intentarlo";
   echo "<script>location.href = '../login/login.php?msg=" . $mensaje . "';</script>";
@@ -21,11 +22,19 @@ if ($resp) {
 ?>
 
 <body class="d-flex flex-column min-vh-100">
-  <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+  <header class="d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 border-bottom">
     <div class="col-md-3 mb-2 mb-md-0">
       <a href="../productos/productos.php">ACÁ IRÍA EL LOGO</a>
     </div>
-    <div class="col-md-3 d-flex flex-row text-end">
+    <div class="col-4 d-flex flex-row text-end">
+      <?php
+      if ($rol == 2) {
+      ?>
+        <a href="../usersAdmin/listaUsers.php" type="button" class="btn btn-outline-primary mr-2">Usuarios</a>
+      <?php
+      }
+      ?>
+      <a href="../productos/productos.php" type="button" class="btn btn-outline-primary mr-2">Productos</a>
       <a href="../perfil/" type="button" class="btn btn-outline-primary mr-2">Mi Perfil</a>
       <form action="../login/action.php" method="get">
         <input type="hidden" name="accion" value="cerrar">

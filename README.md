@@ -6,7 +6,7 @@ Cosas por hacer
 
 Cliente
 -Perfil. Joaquin - En proceso
--Listado de los productos. Fede - En prodceso
+-Listado de los productos. Fede - En proceso
 -Carrito
 -Pasarela de pagos (Stripe)
 -mail
@@ -17,3 +17,5 @@ Administrador
 -Listado de usuarios (Eliminar) Ema - falta deshabilitar
 
 Deposito
+-Listado de compras.
+-Manejo de el estado de compras.
