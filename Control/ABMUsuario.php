@@ -132,6 +132,28 @@ class ABMUsuario
         return $arreglo;
     }
 
+    public function arrayUser($param = "")
+    {
+        $arrayAbm = $this->buscar($param);
+        $listar = [];
+        if (count($arrayAbm) > 0) {
+            foreach ($arrayAbm as $objAbm) {
+              //if ($objAbm->getusdeshabilitado() === null) {  
+              $arrayAbmUsuario = [
+                    'idusuario' => $objAbm->getidusuario(),
+                    'usnombre' => $objAbm->getusnombre(),
+                    'uspass' => $objAbm->getuspass(),
+                    'usmail' => $objAbm->getusmail(),
+                    'usdeshabilitado' => $objAbm->getusdeshabilitado()
+                ];
+
+                array_push($listar, $arrayAbmUsuario);
+              //}
+            }
+        }
+        return  $listar;
+    }
+
   public function buscar($param)
   {
     $where = "true";

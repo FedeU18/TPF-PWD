@@ -30,8 +30,11 @@ $lista = $obj->buscar(null);
                         echo '<td>' . $objTabla->getidusuario() . '</td>';
                         echo '<td>' . $objTabla->getusnombre() . '</td>';
                         echo '<td>' . $objTabla->getusmail() . '</td>';
-                        echo '<td>' . $objTabla->getusdeshabilitado() . '</td>';
-                        echo '<td><a class="btn btn-primary btn-sm" role="button" href="./editar.php?editar=editar&idusuario=' . $objTabla->getidusuario() . '">Roles</a></td>';
+                        echo '<td>' . ($objTabla->getusdeshabilitado() == '0000-00-00' || is_null($objTabla->getusdeshabilitado()) ? 'Activo' : 'Deshabilitado') . '</td>';
+                        echo '<td>';
+                        echo '<a class="btn btn-primary btn-sm" role="button" href="./editar.php?editar=editar&idusuario=' . $objTabla->getidusuario() . '">Roles</a> ';
+                        echo '<a class="btn btn-danger btn-sm" role="button" href="./borradoLogico.php?idusuario=' . $objTabla->getidusuario() . '">Eliminar</a>';
+                        echo '</td>';
                         echo '</tr>';
                     }
                 } else {
