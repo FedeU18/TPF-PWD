@@ -26,7 +26,7 @@ if ($resp) {
     <div class="col-md-3 mb-2 mb-md-0">
       <a href="../productos/productos.php">ACÁ IRÍA EL LOGO</a>
     </div>
-    <div class="col-4 d-flex flex-row text-end">
+    <div class="col-5 d-flex flex-row text-end">
       <?php
       if ($rol == 2) {
       ?>
