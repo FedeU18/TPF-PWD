@@ -23,25 +23,32 @@ $lista = $obj->buscar(null);
         </tr>
       </thead>
       <tbody>
-        <?php
-        if (count($lista) > 0) {
-          foreach ($lista as $objTabla) {
+    <?php
+    if(count($lista) > 0){
+        foreach($lista as $objTabla) {
             echo '<tr>';
             echo '<td>' . $objTabla->getidusuario() . '</td>';
             echo '<td>' . $objTabla->getusnombre() . '</td>';
             echo '<td>' . $objTabla->getusmail() . '</td>';
             echo '<td>' . ($objTabla->getusdeshabilitado() == '0000-00-00' || is_null($objTabla->getusdeshabilitado()) ? 'Activo' : 'Deshabilitado') . '</td>';
             echo '<td>';
-            echo '<a class="btn btn-primary btn-sm" role="button" href="./editar.php?editar=editar&idusuario=' . $objTabla->getidusuario() . '">Roles</a> ';
-            echo '<a class="btn btn-danger btn-sm" role="button" href="./borradoLogico.php?idusuario=' . $objTabla->getidusuario() . '">Eliminar</a>';
+            echo '<a class="btn btn-primary btn-sm" role="button" href="./editar.php?editar=editar&idusuario=' . $objTabla->getidusuario() . '">Roles</a>';
+            //boton deshab solo si el user esta habilitado
+            if ($objTabla->getusdeshabilitado() == '0000-00-00' || is_null($objTabla->getusdeshabilitado())) {
+              echo ' <a class="btn btn-danger btn-sm" role="button" href="./borradoLogico.php?idusuario=' . $objTabla->getidusuario() . '">Eliminar</a>';
+            }
+            //boton habilitar solo si el user esta deshab
+            if ($objTabla->getusdeshabilitado() != '0000-00-00' && !is_null($objTabla->getusdeshabilitado())) {
+                echo ' <a class="btn btn-success btn-sm" role="button" href="./habilitarUser.php?idusuario=' . $objTabla->getidusuario() . '">Habilitar</a>';
+            }
             echo '</td>';
             echo '</tr>';
-          }
-        } else {
-          echo '<tr><td colspan="5" class="text-center text-muted">No se encontraron usuarios.</td></tr>';
         }
-        ?>
-      </tbody>
+    } else {
+        echo '<tr><td colspan="5" class="text-center text-muted">No se encontraron usuarios.</td></tr>';
+    }
+    ?>
+</tbody>
     </table>
   </div>
 </div>
