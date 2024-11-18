@@ -4,8 +4,8 @@ include_once "../../config.php";
 include_once("../../estructura/headerSeguro.php");
 $datos = data_submitted();
 
-$obj = new ABMUsuario();
-$lista = $obj->buscar(null);
+  $obj = new ABMUsuario();
+  $lista = $obj->buscar(null);
 
 ?>
 <div class="container mt-5">

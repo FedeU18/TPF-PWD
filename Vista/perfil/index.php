@@ -4,7 +4,11 @@ include_once "../../config.php";
 include_once "../../estructura/headerSeguro.php";
 $idUsuario = $session->getUsuario();
 $objUsuario = new ABMUsuario();
+$objCompras = new ABMCompra();
+$objEstadoCompras = new ABMCompraEstado();
 $usuario = $objUsuario->buscar(['idusuario' => $idUsuario]);
+
+$compras = $objEstadoCompras->buscar(['idusuario' => $idUsuario]);
 
 
 
@@ -47,15 +51,7 @@ $usuario = $usuario[0];
     <input type="email" class="form-control" id="usmail" name="usmail" value="<?= htmlspecialchars($usuario->getusmail()); ?>" required>
   </div>
 
-  <!-- <div class="mb-3">
-    <label for="uspass_actual" class="form-label">Contraseña Actual</label>
-    <input type="password" class="form-control" id="uspass_actual" name="uspass_actual" placeholder="Ingrese su contraseña actual para cambiar contraseña">
-  </div>
 
-  <div class="mb-3">
-    <label for="uspass" class="form-label">Nueva Contraseña</label>
-    <input type="password" class="form-control" id="uspass" name="uspass" placeholder="Deje en blanco si no desea cambiarla">
-  </div> -->
 
   <a href="cambioContraseña.php" class="btn btn-danger">Cambiar Contraseña</a>
   
@@ -64,8 +60,66 @@ $usuario = $usuario[0];
 </form>
 
 
-    
+      <!-- <hr class="mt-4"> -->
+       <br>
+      <a href="../productos/productos.php" class="btn btn-secondary">Volver a la Página</a>
   </div>
+
+<div class="container mt-5">
+<hr class="mt-4">
+  <h1 class="text-center">Historial de compras</h1>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Pedido #</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Estado</th>
+          <!-- <th scope="col">Total</th> -->
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+    <?php
+
+      
+
+    if(count($compras) > 0){
+        foreach($compras as $compra) {
+
+            echo '<tr>';
+            echo '<td>' . $compra->getidcompra() . '</td>';
+            echo '<td>' . $compra->getcefechaini() . '</td>';
+            if($compra->getidcompraestadotipo() == 1){
+              
+              echo '<td>' . "Iniciada". '</td>';
+            }else if($compra->getidcompraestadotipo() == 2){
+              
+              echo '<td>' . "Aceptada". '</td>';
+            }else if($compra->getidcompraestadotipo() == 3){
+              echo '<td>' . "Enviada". '</td>';
+              
+            }else if($compra->getidcompraestadotipo() == 4){
+              echo '<td>' . "Cancelada". '</td>';
+
+            }
+            // echo '<td>' . $compra->getTotal() . '</td>';
+            echo '<td>';
+            // echo '<a class="btn btn-primary btn-sm" role="button" href="./editar.php?editar=editar&idusuario=' . $compra->getidusuario() . '">Roles</a>';
+            //boton deshab solo si el user esta habilitado
+            
+            echo '</td>';
+            echo '</tr>';
+        }
+    } else {
+        echo '<tr><td colspan="5" class="text-center text-muted">No se encontraron usuarios.</td></tr>';
+    }
+    ?>
+</tbody>
+    </table>
+  </div>
+
+</div>
 </body>
 
 </html>
