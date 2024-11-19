@@ -430,4 +430,15 @@ COMMIT;
 ;
 
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */
-;
+;ALTER TABLE
+  `producto`
+MODIFY
+  `pronombre` VARCHAR(50) NOT NULL;
+
+-- Agregar la nueva columna `precio`
+ALTER TABLE
+  `producto`
+ADD
+  COLUMN `precio` INT(11) NOT NULL
+AFTER
+  `idproducto`;
