@@ -1,8 +1,14 @@
 <?php
+if (basename($_SERVER['PHP_SELF']) === 'prodCliente.php') {
+  header("Location: Productos.php");
+  exit;
+}
 
 $objProductos = new ABMProducto();
 $productos = $objProductos->buscar(null);
+// Verificar si se accede directamente
 ?>
+
 <div id="mensajeError" class="mb-3"></div>
 <div id="mensajeExito" class="mb-3"></div>
 
@@ -17,6 +23,7 @@ $productos = $objProductos->buscar(null);
         <div class="card-body">
           <h5 class="card-title"><?php echo htmlspecialchars($producto->getpronombre()); ?></h5>
           <p class="card-text"><?php echo htmlspecialchars($producto->getprodetalle()); ?></p>
+          <p class="card-text"><strong>Precio:</strong> $<?php echo htmlspecialchars($producto->getprecio()); ?></p>
           <p class="card-text"><strong>Stock:</strong> <?php echo htmlspecialchars($producto->getprocantstock()); ?></p>
           <form id="formAgregarCarrito" name="formAgregarCarrito" method="post">
             <input type="hidden" id="accion" name="accion" value="agregarCarrito">
@@ -25,7 +32,6 @@ $productos = $objProductos->buscar(null);
             <button type="button" class="btn btn-success btnAgregarCarrito">Agregar al carrito</button>
           </form>
         </div>
-
       </div>
     </div>
   <?php } ?>
