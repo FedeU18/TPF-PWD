@@ -14,7 +14,7 @@ Cliente
 
 Administrador
 -Listado de productos (Crear, modificar y eliminar)
--Listado de usuarios (Eliminar) Ema - falta ajax
+-Listado de usuarios (Eliminar) Ema - TERMINADO
 
 Deposito
 -Listado de compras.
