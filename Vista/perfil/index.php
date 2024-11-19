@@ -120,8 +120,11 @@ foreach ($compras as $compra) {
                   ?>
                 </td>
                 <td>
-                  <!-- <button class="btn btn-primary">Detalles</button> -->
-                  <a href="mostrarDetallesAction.php" class="btn btn-primary">Detalles</a>
+                <form action="mostrarDetallesAction.php" method="post" class="mt-4">
+    <input type="hidden" name="idcompra" value="<?= $compra->getIdCompra(); ?>">
+    <button type="submit" class="btn btn-primary">Detalles</button>
+</form>
+
                 </td>
               </tr>
             <?php endforeach; ?>
