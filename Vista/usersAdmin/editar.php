@@ -8,25 +8,32 @@ $datosIngresados = data_submitted();
 $abmUsuario = new ABMUsuario();
 $usuarioRoles = null;
 
-//verifica si hay un idusuario valido para buscar los roles
-if (isset($datosIngresados['idusuario']) && $datosIngresados['idusuario'] != -1) {
-  $listaRolesAsignados = $abmUsuario->darRoles($datosIngresados);
-  if (count($listaRolesAsignados) == 1) {
-    $usuarioRoles = $listaRolesAsignados[0];
-  }
+//verificar si hay un idusuario valido para buscar los roles
+$listaRolesAsignados = [];
+if (!empty($datosIngresados['idusuario']) && $datosIngresados['idusuario'] != -1) {
+    $listaRolesAsignados = $abmUsuario->darRoles($datosIngresados);
+    if (count($listaRolesAsignados) == 1) {
+        $usuarioRoles = $listaRolesAsignados[0];
+    }
+} else {
+    echo '<div class="alert alert-danger">Error: No se recibió un ID de usuario válido.</div>';
+    exit;//detener ejec para evitar errores posteriores
 }
 
 $abmRol = new ABMRol();
 $listaRolesDisponibles = $abmRol->buscar(null);
-//crear un indice de descripciones basadas en los ids de los roles disponibles
+
+//indice de descripciones basadas en los ids de los roles disponibles
 $rolesDescripcion = [];
 foreach ($listaRolesDisponibles as $rolDisponible) {
-  $rolesDescripcion[$rolDisponible->getidrol()] = $rolDisponible->getrodescripcion();
+    $rolesDescripcion[$rolDisponible->getidrol()] = $rolDisponible->getrodescripcion();
 }
 ?>
 
 <div class="container my-4">
   <h3 class="text-primary">ABM - Agregar Roles</h3>
+
+  <div id="mensaje" class="alert" style="display:none;"></div>
 
   <div class="row">
     <div class="col-md-12">
@@ -40,13 +47,13 @@ foreach ($listaRolesDisponibles as $rolDisponible) {
 
   <div class="row float-right mb-3">
     <div class="col-md-12">
-      <?php
-      if (count($listaRolesDisponibles) > 0) {
-        foreach ($listaRolesDisponibles as $rolDisponible) {
-          echo '<a class="btn btn-primary btn-sm m-1" role="button" href="./agregarRolAction.php?accion=nuevoRol&idrol=' . $rolDisponible->getidrol() . '&idusuario=' . htmlspecialchars($datosIngresados['idusuario']) . '">Agregar Rol ' . htmlspecialchars($rolDisponible->getrodescripcion()) . '</a>';
+        <?php
+        if (count($listaRolesDisponibles) > 0) {
+            foreach ($listaRolesDisponibles as $rolDisponible) {
+                echo '<button class="btn btn-primary btn-sm m-1 btn-accion" data-accion="nuevoRol" data-idrol="' . $rolDisponible->getidrol() . '" data-idusuario="' . htmlspecialchars($datosIngresados['idusuario']) . '">Agregar Rol ' . htmlspecialchars($rolDisponible->getrodescripcion()) . '</button>';
+            }
         }
-      }
-      ?>
+        ?>
     </div>
   </div>
 
@@ -59,27 +66,85 @@ foreach ($listaRolesDisponibles as $rolDisponible) {
           <th scope="col">Acciones</th>
         </tr>
       </thead>
-      <tbody>
-        <?php
-        if (count($listaRolesAsignados) > 0) {
-          foreach ($listaRolesAsignados as $rolAsignado) {
-
-            echo '<tr>';
-            echo '<td>' . htmlspecialchars($rolAsignado->getidrol()) . '</td>';
-            echo '<td>' . htmlspecialchars($rolesDescripcion[$rolAsignado->getidrol()]) . '</td>';
-            echo '<td><a class="btn btn-primary btn-sm" role="button" href="./borrarRolAction.php?borrarRol=borrarRol&idusuario=' . htmlspecialchars($rolAsignado->getidusuario()) . '&idrol=' . htmlspecialchars($rolAsignado->getidrol()) . '">Borrar</a></td>';
-            echo '</tr>';
-          }
-        } else {
-          echo '<tr><td colspan="3" class="text-center text-muted">No se encontraron roles asignados.</td></tr>';
-        }
-        ?>
+        <tbody>
+          <?php
+            if (count($listaRolesAsignados) > 0) {
+                foreach ($listaRolesAsignados as $rolAsignado) {
+                    echo '<tr>';
+                    echo '<td>' . htmlspecialchars($rolAsignado->getidrol()) . '</td>';
+                    echo '<td>' . htmlspecialchars($rolesDescripcion[$rolAsignado->getidrol()]) . '</td>';
+                    echo '<td><button class="btn btn-danger btn-sm btn-accion" data-accion="borrarRol" data-idrol="' . htmlspecialchars($rolAsignado->getidrol()) . '" data-idusuario="' . htmlspecialchars($rolAsignado->getidusuario()) . '">Borrar</button></td>';
+                    echo '</tr>';
+                }
+            } else {
+                echo '<tr><td colspan="3" class="text-center text-muted">No se encontraron roles asignados.</td></tr>';
+            }
+          ?>
       </tbody>
     </table>
   </div>
 
   <a href="./listaUsers.php" class="btn btn-secondary mt-3">Volver</a>
 </div>
+
+<script>
+$(document).on('click', '.btn-accion', function (e) {
+    e.preventDefault(); // Evita la recarga de la página
+
+    const accion = $(this).data('accion');//(nuevoRol o borrarRol)
+    const idUsuario = $(this).data('idusuario');
+    const idRol = $(this).data('idrol');
+    const button = $(this);
+
+    $.ajax({
+        url: './ajaxRolesAction.php',
+        type: 'POST',
+        data: { accion: accion, idusuario: idUsuario, idrol: idRol },
+        dataType: 'json',
+        success: function (response) {
+            //mostrar msj en el div
+            const mensajeDiv = $('#mensaje');
+            mensajeDiv.show();//mostrar div
+            mensajeDiv.removeClass('alert-danger alert-info');//eliminar clases anteriroes
+
+            if (response.success) {
+                //msj exito
+                mensajeDiv.addClass('alert-info');
+                mensajeDiv.text(response.message);
+
+                //actualizar la fila sin recargar la pagina
+                if (accion === 'nuevoRol') {
+                    //accion agregar, añadir una fila
+                    const newRow = `
+                        <tr>
+                            <td>${idRol}</td>
+                            <td>${button.text().replace('Agregar Rol', '').trim()}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm btn-accion" data-accion="borrarRol" data-idrol="${idRol}" data-idusuario="${idUsuario}">Borrar</button>
+                            </td>
+                        </tr>
+                    `;
+                    $('table tbody').append(newRow);
+                } else if (accion === 'borrarRol') {
+                    //accion borrar, sacar una fila
+                    button.closest('tr').remove();
+                }
+            } else {
+                //msj error
+                mensajeDiv.addClass('alert-danger');
+                mensajeDiv.text(response.message);
+            }
+        },
+        error: function () {
+            //msj error x si falla (ej querer dar un rol q ya tiene)
+            const mensajeDiv = $('#mensaje');
+            mensajeDiv.show();
+            mensajeDiv.removeClass('alert-info').addClass('alert-danger');
+            mensajeDiv.text('Ocurrió un error al procesar la solicitud.');
+        }
+    });
+});
+</script>
 
 <?php
 include_once("../../estructura/footer.php");
