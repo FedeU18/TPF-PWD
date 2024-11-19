@@ -1,67 +1,9 @@
 INSERT INTO
   `rol` (`idrol`, `rodescripcion`)
 VALUES
-  (
-    1,
-    'Cliente'
-  ),
-  (
-    2,
-    'Administrador'
-  ),
-  (
-    3,
-    'Depósito'
-  );
-
-INSERT INTO
-  `usuario` (
-    `idusuario`,
-    `usnombre`,
-    `uspass`,
-    `usmail`,
-    `usdeshabilitado`
-  )
-VALUES
-  (
-    1,
-    'JuanPerez',
-    MD5('password123'),
-    'juanperez@example.com',
-    NULL
-  ),
-  -- Cliente
-  (
-    2,
-    'AdminMaster',
-    MD5('admin2024'),
-    'adminmaster@example.com',
-    NULL
-  ),
-  -- Administrador
-  (
-    3,
-    'DepoUser',
-    MD5('deposit123'),
-    'depouser@example.com',
-    NULL
-  ),
-  -- Depósito
-  (
-    4,
-    'ClienteTest',
-    MD5('cliente123'),
-    'clientetest@example.com',
-    NULL
-  ),
-  -- Cliente
-  (
-    5,
-    'MultiRolUser',
-    MD5('multirole2024'),
-    'multiroleuser@example.com',
-    NULL
-  );
+  (1, 'Cliente'),
+  (2, 'Administrador'),
+  (3, 'Depósito');
 
 -- Usuario con varios roles
 INSERT INTO
@@ -81,4 +23,17 @@ VALUES
   -- MultiRolUser -> Administrador
   (5, 3);
 
--- MultiRolUser -> Depósito
+--MODIFICAR TABLA PRECIO
+-- Cambiar el tipo de dato de la columna `pronombre` a `VARCHAR(50)`
+ALTER TABLE
+  `producto`
+MODIFY
+  `pronombre` VARCHAR(50) NOT NULL;
+
+-- Agregar la nueva columna `precio`
+ALTER TABLE
+  `producto`
+ADD
+  COLUMN `precio` INT(11) NOT NULL
+AFTER
+  `idproducto`;
