@@ -6,7 +6,7 @@ Cosas por hacer
 
 Cliente
 -Perfil. Joaquin - falta ajax
--Ver compras
+-Ver compras Joaquin - Terminado, a revisar, falta ajax
 -Listado de los productos. Fede - En proceso
 -Carrito
 -Pasarela de pagos (Stripe)
