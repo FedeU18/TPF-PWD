@@ -18,14 +18,13 @@ class Session
     $obj = new ABMUsuario();
     $param = [
       "usnombre" => $nombreUser,
-      // "uspass" => $psw,
       "usdeshabilitado" => NULL
     ];
 
     //buscar user
     $res = $obj->buscar($param);
 
-    //Si el res no esta vacio, le asigna el id del user a la saesion
+    //Si el res no esta vacio, le asigna el id del user a la sesion
     if (!empty($res)) {
       $usuario = $res[0];
       if (password_verify($psw, $usuario->getuspass())) {
@@ -82,7 +81,6 @@ class Session
     session_destroy();
   }
 
-
   //funcionalidades del Carrito 
 
   //agregar un producto al carrito
@@ -99,15 +97,32 @@ class Session
     }
   }
 
+  public function reducirCantidad($idProducto)
+  {
+    $resp = false;
+    if (isset($_SESSION['carrito'][$idProducto])) {
+      $cantidad = $_SESSION['carrito'][$idProducto];
+      if ($cantidad > 1) {
+        $cantidad--;
+        $_SESSION['carrito'][$idProducto] = $cantidad;
+        $resp = true;
+      } else if ($cantidad == 1) {
+        $resp = $this->eliminarDelCarrito($idProducto);
+      }
+    }
+    return $resp;
+  }
 
   //eliminar un producto del carrito
   public function eliminarDelCarrito($idProducto)
   {
+    $resp = false;
     if (isset($_SESSION['carrito'][$idProducto])) {
       unset($_SESSION['carrito'][$idProducto]);
+      $resp = true;
     }
+    return $resp;
   }
-
 
   //vaciar el carrito
   public function vaciarCarrito()
@@ -119,6 +134,14 @@ class Session
   public function obtenerProductosCarrito()
   {
     return $_SESSION['carrito'] ?? []; // Devuelve el carrito o un array vacío
+  }
+
+  //actualizar todo el carrito con nuevos datos
+  public function actualizarProductosCarrito($nuevoCarrito)
+  {
+    if (is_array($nuevoCarrito)) {
+      $_SESSION['carrito'] = $nuevoCarrito;
+    }
   }
 
   //obtener el total de productos en el carrito
@@ -135,7 +158,6 @@ class Session
 
     return $total;
   }
-
 
   //obtener la cantidad de un producto específico en el carrito
   public function cantidadProductoEnCarrito($idProducto)
