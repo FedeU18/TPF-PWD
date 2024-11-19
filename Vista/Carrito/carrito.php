@@ -19,6 +19,7 @@ $objProducto = new ABMProducto();
     <thead>
       <tr>
         <th>Producto</th>
+        <th>Precio</th>
         <th>Cantidad</th>
         <th>Subtotal</th>
         <th>Acciones</th>
@@ -30,6 +31,7 @@ $objProducto = new ABMProducto();
       ?>
         <tr>
           <td><?php echo htmlspecialchars($producto->getpronombre()); ?></td>
+          <td><?php echo htmlspecialchars($producto->getprecio()); ?></td>
           <td id="cantidad-<?php echo $idProducto; ?>"><?php echo $cantidad; ?></td>
           <td id="subtotal-<?php echo $idProducto; ?>"><?php echo '$' . ($producto->getprecio() * $cantidad); ?></td>
           <td>
@@ -42,14 +44,39 @@ $objProducto = new ABMProducto();
   </table>
 
   <p><strong>Total: $<?php echo $session->totalProductosCarrito(); ?></strong></p>
+  <form method="post" id="pagar">
+    <input type="submit" class="btn btn-info" value="Ir a Pagar" />
+  </form>
 <?php } ?>
 
 <script>
   $(document).ready(function() {
+    // Enviar el formulario de pago mediante AJAX
+    $("#pagar").submit(function(event) {
+      event.preventDefault();
+
+      $.ajax({
+        url: "pagar.php", // Archivo que crea la sesión de pago en Stripe
+        type: "POST", // Usamos POST para enviar los datos
+        dataType: "json", // Esperamos una respuesta JSON
+        success: function(respuesta) {
+          if (respuesta.success) {
+            // Redirigir al usuario a la URL de Stripe
+            window.location.href = respuesta.url;
+          } else {
+            $("#mensajeError").html('<div class="alert alert-danger">' + respuesta.msg + '</div>');
+          }
+        },
+        error: function() {
+          alert("Error en la conexión al servidor.");
+        }
+      });
+    });
+
     // Reducir cantidad
     $(".reducir").click(function() {
       var idProducto = $(this).data("idproducto");
-      var precio = $(this).data("precio"); // Precio del producto
+      var precio = $(this).data("precio");
 
       $.ajax({
         url: "actionModificarCarrito.php",
@@ -61,15 +88,12 @@ $objProducto = new ABMProducto();
         dataType: "json",
         success: function(respuesta) {
           if (respuesta.success) {
-            // Actualizar la cantidad
             var nuevaCantidad = parseInt($("#cantidad-" + idProducto).text()) - 1;
             $("#cantidad-" + idProducto).text(nuevaCantidad);
 
-            // Actualizar el subtotal
             var nuevoSubtotal = precio * nuevaCantidad;
             $("#subtotal-" + idProducto).text('$' + nuevoSubtotal);
 
-            // Actualizar el total
             $("p:contains('Total:')").html("<strong>Total: $" + respuesta.totalProductos + "</strong>");
             $("#mensajeExito").html('<div class="alert alert-info">' + respuesta.msg + '</div>');
           } else {
@@ -96,10 +120,7 @@ $objProducto = new ABMProducto();
         dataType: "json",
         success: function(respuesta) {
           if (respuesta.success) {
-            // Eliminar la fila del producto
             $("button[data-idproducto='" + idProducto + "']").closest("tr").remove();
-
-            // Actualizar el total
             $("p:contains('Total:')").html("<strong>Total: $" + respuesta.totalProductos + "</strong>");
             $("#mensajeExito").html('<div class="alert alert-info">' + respuesta.msg + '</div>');
           } else {
@@ -113,6 +134,7 @@ $objProducto = new ABMProducto();
     });
   });
 </script>
+
 
 <?php
 include_once "../../estructura/footer.php";
