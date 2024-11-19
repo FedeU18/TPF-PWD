@@ -1,7 +1,10 @@
 <?php
+if (basename($_SERVER['PHP_SELF']) === 'prodAdmin.php') {
+  header("Location: Productos.php");
+  exit;
+}
 $objProductos = new ABMProducto();
 $productos = $objProductos->buscar(null);
-
 ?>
 <div class="table-responsive">
   <table class="table table-striped table-bordered">
@@ -10,6 +13,7 @@ $productos = $objProductos->buscar(null);
         <th>ID</th>
         <th>Nombre</th>
         <th>Detalle</th>
+        <th>Precio</th>
         <th>Stock</th>
         <th>Acciones</th>
       </tr>
@@ -21,6 +25,7 @@ $productos = $objProductos->buscar(null);
             <td><?php echo htmlspecialchars($producto->getidproducto()); ?></td>
             <td><?php echo htmlspecialchars($producto->getpronombre()); ?></td>
             <td><?php echo htmlspecialchars($producto->getprodetalle()); ?></td>
+            <td>$<?php echo htmlspecialchars($producto->getprecio()); ?></td>
             <td><?php echo htmlspecialchars($producto->getprocantstock()); ?></td>
             <td>
               <a href="detalleProducto.php?id=<?php echo $producto->getidproducto(); ?>" class="btn btn-info btn-sm">Ver</a>
@@ -31,7 +36,7 @@ $productos = $objProductos->buscar(null);
         <?php } ?>
       <?php } else { ?>
         <tr>
-          <td colspan="5" class="text-center">No se encontraron productos.</td>
+          <td colspan="6" class="text-center">No se encontraron productos.</td>
         </tr>
       <?php } ?>
     </tbody>
