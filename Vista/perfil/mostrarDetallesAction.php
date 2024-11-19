@@ -29,7 +29,7 @@ foreach ($compraItems as $item) {
         $listaProductos[] = [
             'producto' => $producto[0], // Producto encontrado
             'cantidad' => $item->getCiCantidad(), // Cantidad del producto
-            // 'subtotal' => $item->getCiCantidad() * $item->getCiPrecioCompra() 
+            'subtotal' => $item->getCiCantidad() * $producto[0]->getprecio() // Cálculo del subtotal
         ];
     }
 }
@@ -56,8 +56,8 @@ foreach ($compraItems as $item) {
             <th scope="col">Producto</th>
             <th scope="col">Descripción</th>
             <th scope="col">Cantidad</th>
-            <!-- <th scope="col">Precio Unitario</th>
-            <th scope="col">Subtotal</th> -->
+            <th scope="col">Precio Unitario</th>
+            <th scope="col">Subtotal</th>
           </tr>
         </thead>
         <tbody>
@@ -67,14 +67,14 @@ foreach ($compraItems as $item) {
             foreach ($listaProductos as $detalle): 
                 $producto = $detalle['producto'];
                 $cantidad = $detalle['cantidad'];
-                // $subtotal = $detalle['subtotal'];
-                // $total += $subtotal;
+                $subtotal = $detalle['subtotal'];
+                $total += $subtotal;
             ?>
               <tr>
                 <td><?= htmlspecialchars($producto->getProNombre()); ?></td>
                 <td><?= htmlspecialchars($producto->getProDetalle()); ?></td>
                 <td><?= htmlspecialchars($cantidad); ?></td>
-                <td>$<?= number_format($producto->getProPrecio(), 2, ',', '.'); ?></td>
+                <td>$<?= number_format($producto->getprecio(), 2, ',', '.'); ?></td>
                 <td>$<?= number_format($subtotal, 2, ',', '.'); ?></td>
               </tr>
             <?php endforeach; ?>
