@@ -28,11 +28,11 @@ if ($resp) {
     </div>
     <div class="col-5 d-flex flex-row text-end">
       <?php
-      if ($rol == 2) {
-      ?>
-        <a href="../usersAdmin/listaUsers.php" type="button" class="btn btn-outline-primary mr-2">Usuarios</a>
-      <?php
-      }
+      if (in_array(2, $rol)) {//verificar q tenga el rol 2
+        ?>
+            <a href="../usersAdmin/listaUsers.php" type="button" class="btn btn-outline-primary mr-2">Usuarios</a>
+        <?php
+        }
       ?>
       <a href="../productos/productos.php" type="button" class="btn btn-outline-primary mr-2">Productos</a>
       <a href="../perfil/" type="button" class="btn btn-outline-primary mr-2">Mi Perfil</a>

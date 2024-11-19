@@ -60,18 +60,21 @@ class Session
   //devolver rol del user logueado
   public function getRol()
   {
-    $rol = null;  //valor x defecto
+    $roles = [];//almacenar todos los roles del user
 
     $idUsuario = $this->getUsuario();
     if ($idUsuario) {
-      $abmUserRol = new ABMUsuarioRol();
-      $usuarioRoles = $abmUserRol->buscar(['idusuario' => $idUsuario]);
+        $abmUserRol = new ABMUsuarioRol();
+        $usuarioRoles = $abmUserRol->buscar(['idusuario' => $idUsuario]);
 
-      if (!empty($usuarioRoles)) {
-        $rol = $usuarioRoles[0]->getidrol();  //asignar rol
-      }
+        if (!empty($usuarioRoles)) {
+            foreach ($usuarioRoles as $rolObj) {
+                $roles[] = $rolObj->getidrol();//agregar cada rol
+            }
+        }
     }
-    return $rol;
+
+    return $roles;
   }
 
   //cerrar sesion actual
