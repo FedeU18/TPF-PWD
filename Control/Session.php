@@ -60,18 +60,18 @@ class Session
   //devolver rol del user logueado
   public function getRol()
   {
-    $roles = [];//almacenar todos los roles del user
+    $roles = []; //almacenar todos los roles del user
 
     $idUsuario = $this->getUsuario();
     if ($idUsuario) {
-        $abmUserRol = new ABMUsuarioRol();
-        $usuarioRoles = $abmUserRol->buscar(['idusuario' => $idUsuario]);
+      $abmUserRol = new ABMUsuarioRol();
+      $usuarioRoles = $abmUserRol->buscar(['idusuario' => $idUsuario]);
 
-        if (!empty($usuarioRoles)) {
-            foreach ($usuarioRoles as $rolObj) {
-                $roles[] = $rolObj->getidrol();//agregar cada rol
-            }
+      if (!empty($usuarioRoles)) {
+        foreach ($usuarioRoles as $rolObj) {
+          $roles[] = $rolObj->getidrol(); //agregar cada rol
         }
+      }
     }
 
     return $roles;
@@ -157,6 +157,23 @@ class Session
     $total = 0;
     foreach ($_SESSION['carrito'] as $cantidad) {
       $total += $cantidad;
+    }
+
+    return $total;
+  }
+
+  public function precioTotal()
+  {
+    if (!isset($_SESSION['carrito'])) {
+      return 0;
+    }
+
+    $total = 0;
+    foreach ($_SESSION['carrito'] as $idProducto => $cantidad) {
+      // Buscar el precio del producto usando el ID
+      $objProducto = new ABMProducto();
+      $producto = $objProducto->buscar(['idproducto' => $idProducto])[0]; // Suponiendo que siempre existe un producto con ese ID
+      $total += $producto->getprecio() * $cantidad; // Precio * cantidad
     }
 
     return $total;
