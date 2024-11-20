@@ -1,6 +1,13 @@
 <?php
 include_once ('../../config.php');
-include_once ('../../estructura/headerSeguro.php');
+include_once("../../estructura/headerSeguro.php");
+
+//verifico q entre un user con el rol de admin a la pagina
+if (!in_array(3, $rol)) {
+  $mensaje = "Acceso denegado. Solo los Depositores pueden acceder.";
+  echo "<script>location.href = '../perfil/index.php?msg=" . urlencode($mensaje) . "';</script>";
+  exit;//detener ejec
+}
 
 $abmCompraEstado = new ABMCompraEstado();
 

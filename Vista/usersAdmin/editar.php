@@ -96,9 +96,9 @@ foreach ($listaRolesDisponibles as $rolDisponible) {
 
 <script>
 $(document).on('click', '.btn-accion', function (e) {
-    e.preventDefault(); // Evita la recarga de la página
+    e.preventDefault();//prevenir q recargue la pagina
 
-    const accion = $(this).data('accion');//(nuevoRol o borrarRol)
+    const accion = $(this).data('accion');//accion nuevo o borrar rol
     const idUsuario = $(this).data('idusuario');
     const idRol = $(this).data('idrol');
     const button = $(this);
@@ -109,19 +109,13 @@ $(document).on('click', '.btn-accion', function (e) {
         data: { accion: accion, idusuario: idUsuario, idrol: idRol },
         dataType: 'json',
         success: function (response) {
-            //mostrar msj en el div
-            const mensajeDiv = $('#mensaje');
-            mensajeDiv.show();//mostrar div
-            mensajeDiv.removeClass('alert-danger alert-info');//eliminar clases anteriroes
-
             if (response.success) {
-                //msj exito
-                mensajeDiv.addClass('alert-info');
-                mensajeDiv.text(response.message);
+                // Mensaje de éxito
+                mostrarMsj(response.message, 'success');
 
-                //actualizar la fila sin recargar la pagina
+                //actualizar tabla dinamic sin recargar la pag
                 if (accion === 'nuevoRol') {
-                    //accion agregar, añadir una fila
+                    //accion agregar, nueva fila
                     const newRow = `
                         <tr>
                             <td>${idRol}</td>
@@ -133,24 +127,29 @@ $(document).on('click', '.btn-accion', function (e) {
                     `;
                     $('table tbody').append(newRow);
                 } else if (accion === 'borrarRol') {
-                    //accion borrar, sacar una fila
+                    //accion borrar, sacar fila
                     button.closest('tr').remove();
                 }
             } else {
                 //msj error
-                mensajeDiv.addClass('alert-danger');
-                mensajeDiv.text(response.message);
+                mostrarMsj(response.message, 'danger');
             }
         },
         error: function () {
-            //msj error x si falla (ej querer dar un rol q ya tiene)
-            const mensajeDiv = $('#mensaje');
-            mensajeDiv.show();
-            mensajeDiv.removeClass('alert-info').addClass('alert-danger');
-            mensajeDiv.text('Ocurrió un error al procesar la solicitud.');
+            //msj error si falla la soli
+            mostrarMsj('Ocurrió un error al procesar la solicitud.', 'danger');
         }
     });
 });
+//mostrar msj dinamic en div
+function mostrarMsj(msj, type) {
+    var msjDiv = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert"></div>');
+    msjDiv.text(msj);
+    msjDiv.append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+
+    //msj en el contenedor
+    $("#mensaje").html(msjDiv).show();
+}
 </script>
 
 <?php
