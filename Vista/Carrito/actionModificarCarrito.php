@@ -14,7 +14,7 @@ if (isset($datos['accion'])) {
       $response = [
         'success' => true,
         'msg' => 'Cantidad reducida correctamente.',
-        'totalProductos' => $session->totalProductosCarrito()
+        'totalProductos' => $session->precioTotal()
       ];
     } else {
       $response['msg'] = 'No se pudo reducir la cantidad del producto.';
@@ -27,7 +27,7 @@ if (isset($datos['accion'])) {
       $response = [
         'success' => true,
         'msg' => 'Producto eliminado correctamente.',
-        'totalProductos' => $session->totalProductosCarrito()
+        'totalProductos' => $session->precioTotal()
       ];
     } else {
       $response['msg'] = 'No se pudo eliminar el producto del carrito.';
