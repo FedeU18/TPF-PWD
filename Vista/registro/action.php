@@ -62,7 +62,7 @@ if (!$encontrado) {
             $response["message"] = "Error al registrar el usuario.";
         }
     } else {
-        $response["message"] = "El nombre de usuario debe tener más de 8 caracteres.";
+        $response["message"] = "El nombre de usuario debe tener menos de 8 caracteres.";
     }
 }
 
