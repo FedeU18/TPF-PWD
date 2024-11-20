@@ -43,7 +43,7 @@ $objProducto = new ABMProducto();
     </tbody>
   </table>
 
-  <p><strong>Total: $<?php echo $session->totalProductosCarrito(); ?></strong></p>
+  <p><strong>Total: $<?php echo $session->precioTotal(); ?></strong></p>
   <form method="post" id="pagar">
     <input type="submit" class="btn btn-info" value="Ir a Pagar" />
   </form>
