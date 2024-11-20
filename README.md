@@ -10,7 +10,7 @@ Cliente
 -Listado de los productos. Fede - terminado
 -Carrito. Fede - terminado
 -Pasarela de pagos (Stripe). Fede - terminado
--Lógica post pago. Fede - en proceso
+-Lógica post pago. Fede - terminado
 
 Administrador
 -Listado de productos (Crear, modificar y eliminar)
