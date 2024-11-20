@@ -13,13 +13,12 @@ if (!empty($datos['idCompraEstado']) && !empty($datos['estado'])) {
     $compra = $abmCompraEstado->buscar(['idcompraestado' => $idCompraEstado])[0];
 
     if ($compra) {
-        //verificar q el cambio d estado sea valido
+        //verificar que el cambio de estado sea valido
         $estadoActual = $compra->getidcompraestadotipo();
         if (($estadoActual == 1 && in_array($nuevoEstado, [2, 4])) || //iniciada -> aceptada/cancelada
-            ($estadoActual == 2 && $nuevoEstado == 3) ||             //aceptada -> enviada
+            ($estadoActual == 2 && $nuevoEstado == 3) ||             //aceptada -> Enviada
             ($nuevoEstado == 4)) {                                   //cancelar en cualquier estado
-
-            //actualizar estado compra
+            //actualizar estado de compra
             $compra->setidcompraestadotipo($nuevoEstado);
             $compra->modificar();
 
