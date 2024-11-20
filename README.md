@@ -20,3 +20,5 @@ Deposito
 -Listado de compras.
 -Manejo de el estado de compras.
 -Cambiar el estado de la compra, envío de mail Mema - en proceso
+
+-Vista según el rol. Fede - en proceso
