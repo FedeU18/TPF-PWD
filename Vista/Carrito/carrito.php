@@ -55,23 +55,28 @@ $objProducto = new ABMProducto();
     $("#pagar").submit(function(event) {
       event.preventDefault();
 
+      console.log("Formulario enviado");
+
       $.ajax({
-        url: "pagar.php", // Archivo que crea la sesión de pago en Stripe
-        type: "POST", // Usamos POST para enviar los datos
-        dataType: "json", // Esperamos una respuesta JSON
+        url: "pagar.php",
+        type: "POST",
+        dataType: "json",
         success: function(respuesta) {
           if (respuesta.success) {
-            // Redirigir al usuario a la URL de Stripe
+            console.log("Redirigiendo a Stripe:", respuesta.url);
             window.location.href = respuesta.url;
           } else {
+            console.error("Error al pagar:", respuesta.msg);
             $("#mensajeError").html('<div class="alert alert-danger">' + respuesta.msg + '</div>');
           }
         },
-        error: function() {
+        error: function(xhr, status, error) {
+          console.error("Error en AJAX:", xhr.responseText);
           alert("Error en la conexión al servidor.");
         }
       });
     });
+
 
     // Reducir cantidad
     $(".reducir").click(function() {

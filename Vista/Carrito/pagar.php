@@ -10,6 +10,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__, 2));
 $dotenv->load();
 $stripe_secret_key = $_ENV["stripe_secret_key"];
 
+
 $productosCarrito = [];
 foreach ($carrito as $idProducto => $cantidad) {
   $producto = $objProducto->buscar(['idproducto' => $idProducto])[0];
@@ -37,19 +38,25 @@ foreach ($productosCarrito as $item) {
   ];
   $items[] = $detalle;
 }
+header('Content-Type: application/json');
 
-\Stripe\Stripe::setApiKey($stripe_secret_key);
+if (empty($productosCarrito)) {
+  echo json_encode(['success' => false, 'msg' => 'El carrito está vacío.']);
+  exit;
+}
 
-$checkout_session = \Stripe\Checkout\Session::create([
-  "mode" => "payment",
-  "success_url" => "http://localhost/TPF-PWD/Vista/Carrito/exito.php",
-  "cancel_url" => "http://localhost/TPF-PWD/Vista/Carrito/carrito.php",
-  "locale" => "es",
-  "line_items" => $items
-]);
+try {
+  \Stripe\Stripe::setApiKey($stripe_secret_key);
 
-// Retornar la URL para redirigir
-echo json_encode([
-  'success' => true,
-  'url' => $checkout_session->url
-]);
+  $checkout_session = \Stripe\Checkout\Session::create([
+    "mode" => "payment",
+    "success_url" => "http://localhost/TPF-PWD/Vista/Carrito/exito.php",
+    "cancel_url" => "http://localhost/TPF-PWD/Vista/Carrito/carrito.php",
+    "locale" => "es",
+    "line_items" => $items
+  ]);
+
+  echo json_encode(['success' => true, 'url' => $checkout_session->url]);
+} catch (Exception $e) {
+  echo json_encode(['success' => false, 'msg' => 'Error al procesar el pago: ' . $e->getMessage()]);
+}
