@@ -17,8 +17,8 @@ Administrador
 -Listado de usuarios (Eliminar) Ema - TERMINADO
 
 Deposito
--Listado de compras. TERMINADO
--Manejo de el estado de compras. TERMINADO
--Cambiar el estado de la compra, envío de mail Mema - TERMINADO
+-Listado de compras.  Ema - TERMINADO 
+-Manejo de el estado de compras. Ema - TERMINADO
+-Cambiar el estado de la compra, envío de mail. Ema - TERMINADO
 
 -Vista según el rol. Fede - en proceso
