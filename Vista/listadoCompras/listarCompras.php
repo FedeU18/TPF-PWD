@@ -4,10 +4,10 @@ include_once ('../../estructura/headerSeguro.php');
 
 $abmCompraEstado = new ABMCompraEstado();
 
-// Obtengo todas las compras
+//obtener todas las comrpas
 $compras = $abmCompraEstado->buscar(null);
 
-// Verificar que haya compras
+//verificar q haya compras
 if (count($compras) > 0) {
     echo '<div class="container mt-5">
             <h3 class="text-primary text-center">Gestión de Compras</h3>
@@ -69,7 +69,7 @@ $(document).ready(function(){
                 estado: nuevoEstado 
             },
             success: function(response){
-                showMessage(response, 'success');
+                mostrarMsj(response, 'success');
 
                 var estadoText = '';
                 switch(nuevoEstado) {
@@ -83,25 +83,25 @@ $(document).ready(function(){
                         estadoText = 'Cancelada';
                         break;
                 }
-                $button.closest('tr').find('td').eq(1).text(estadoText); // Actualiza estado en la tabla
+                $button.closest('tr').find('td').eq(1).text(estadoText);//actualizar estado en la tabla
 
                 $button.addClass('btn-secondary').prop('disabled', true);
             },
             error: function(){
-                showMessage("Ocurrió un error al cambiar el estado.", 'danger');
+                mostrarMsj("Ocurrió un error al cambiar el estado.", 'danger');
             }
         });
     });
 });
 
-// Función para mostrar mensajes dentro de un div
-function showMessage(message, type) {
-    var messageDiv = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert"></div>');
-    messageDiv.text(message);
-    messageDiv.append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+//mostrar mensajes en el div
+function mostrarMsj(msj, type) {
+    var msjDiv = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert"></div>');
+    msjDiv.text(msj);
+    msjDiv.append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
 
-    // Agrega el mensaje al contenedor de mensajes
-    $("#mensaje").html(messageDiv);
+    //agregar msj al contenedor de msj
+    $("#mensaje").html(msjDiv);
 }
 </script>
 
