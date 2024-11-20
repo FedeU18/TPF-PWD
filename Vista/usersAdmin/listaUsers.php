@@ -65,7 +65,7 @@ $lista = $obj->buscar(null);
 $(document).on('click', '.btn-accion', function (e) {
     e.preventDefault();//prevenir q recargue la pagina
 
-    const accion = $(this).data('accion');//habilitar/deshabilitar
+    const accion = $(this).data('accion');//accion habilitar/deshabilitar
     const idUsuario = $(this).data('id');
     const button = $(this);
 
@@ -76,14 +76,9 @@ $(document).on('click', '.btn-accion', function (e) {
             data: { accion: accion, idusuario: idUsuario },
             dataType: 'json',
             success: function (response) {
-                const msjContenedor = $('#mensaje');
-                msjContenedor.html('');//limpiar msjs anterirores
-
                 if (response.success) {
-                    //msj de q funca (d exito)
-                    msjContenedor.html(
-                        `<div class="alert alert-info">${response.message}</div>`
-                    );
+                    //msj d q funca (d exito)
+                    mostrarMsj(response.message, 'success');
 
                     //actualizar fila dinamic
                     if (accion === 'habilitar') {
@@ -103,20 +98,24 @@ $(document).on('click', '.btn-accion', function (e) {
                     }
                 } else {
                     //msj error
-                    msjContenedor.html(
-                        `<div class="alert alert-danger">${response.message}</div>`
-                    );
+                    mostrarMsj(response.message, 'danger');
                 }
             },
             error: function () {
-                //msj de error si falla la soli
-                $('#mensaje').html(
-                    '<div class="alert alert-danger">Error en la conexión al servidor.</div>'
-                );
+                //msj error x si falla la soli
+                mostrarMsj('Error en la conexión al servidor.', 'danger');
             }
         });
     }
 });
+function mostrarMsj(msj, type) {
+    var msjDiv = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert"></div>');
+    msjDiv.text(msj);
+    msjDiv.append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+
+    //msj contenedor
+    $("#mensaje").html(msjDiv);
+}
 </script>
 
 <?php

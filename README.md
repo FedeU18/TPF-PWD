@@ -1,24 +1,24 @@
 Cosas por hacer
 
--Estructura. Fede - terminado
--Formulario inicio de sesión. Fede - terminado
--Formulario de registro. Joaquin - Terminado
+-Estructura. Fede - TERMINADO
+-Formulario inicio de sesión. Fede - TERMINADO
+-Formulario de registro. Joaquin - TERMINADO
 
 Cliente
--Perfil. Joaquin - Terminado
--Ver compras Joaquin - Terminado, a revisar, falta ajax
--Listado de los productos. Fede - terminado
--Carrito. Fede - terminado
--Pasarela de pagos (Stripe). Fede - terminado
--Lógica post pago. Fede - terminado
+-Perfil. Joaquin - TERMINADO
+-Ver compras Joaquin - TERMINADO, a revisar, falta ajax
+-Listado de los productos. Fede - TERMINADO
+-Carrito. Fede - TERMINADO
+-Pasarela de pagos (Stripe). Fede - TERMINADO
+-Lógica post pago. Fede - TERMINADO
 
 Administrador
-    -Listado de productos (Crear, modificar y eliminar)
+-Listado de productos (Crear, modificar y eliminar)
 -Listado de usuarios (Eliminar) Ema - TERMINADO
 
 Deposito
--Listado de compras.
--Manejo de el estado de compras.
--Cambiar el estado de la compra, envío de mail Mema - en proceso
+-Listado de compras. TERMINADO
+-Manejo de el estado de compras. TERMINADO
+-Cambiar el estado de la compra, envío de mail Mema - TERMINADO
 
 -Vista según el rol. Fede - en proceso
