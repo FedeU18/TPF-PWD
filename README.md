@@ -7,13 +7,14 @@ Cosas por hacer
 Cliente
 -Perfil. Joaquin - falta ajax
 -Ver compras Joaquin - Terminado, a revisar, falta ajax
--Listado de los productos. Fede - En proceso
--Carrito
--Pasarela de pagos (Stripe)
+-Listado de los productos. Fede - terminado
+-Carrito. Fede - terminado
+-Pasarela de pagos (Stripe). Fede - terminado
+-Lógica post pago. Fede - en proceso
 
 Administrador
 -Listado de productos (Crear, modificar y eliminar)
--Listado de usuarios (Eliminar) Ema - falta ajax
+-Listado de usuarios (Eliminar) Ema - TERMINADO
 
 Deposito
 -Listado de compras.

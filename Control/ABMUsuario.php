@@ -99,11 +99,8 @@ class ABMUsuario
             $elObjtTabla = new UsuarioRol();
             $elObjtTabla->setearConClave($param['idusuario'],$param['idrol']);
             $resp = $elObjtTabla->eliminar();
-            
         }
-       
         return $resp;
-        
     }
 
     public function nuevoRol($param){
@@ -112,9 +109,6 @@ class ABMUsuario
             $elObjtTabla = new UsuarioRol();
             $elObjtTabla->setearConClave($param['idusuario'],$param['idrol']);
             $resp = $elObjtTabla->insertar();
-           
-           
-
         }
         return $resp;
     }

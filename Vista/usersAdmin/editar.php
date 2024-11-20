@@ -3,6 +3,13 @@ $Titulo = "Usuario Rol";
 include_once("../../config.php");
 include_once("../../estructura/headerSeguro.php");
 
+//verifico q entre un user con el rol de admin a la pagina
+if (!in_array(2, $rol)) {
+  $mensaje = "Acceso denegado. Solo los administradores pueden acceder.";
+  echo "<script>location.href = '../perfil/index.php?msg=" . urlencode($mensaje) . "';</script>";
+  exit;//detener ejec
+}
+
 $datosIngresados = data_submitted();
 
 $abmUsuario = new ABMUsuario();
