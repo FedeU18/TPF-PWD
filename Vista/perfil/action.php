@@ -1,8 +1,11 @@
 <?php
+// ob_start();
+// Esto evitará que cualquier salida previa (como el contenido del headerSeguro.php) 
+// se envíe antes de que se devuelva el JSON.
 
 include_once "../../config.php";
-include_once("../../estructura/headerSeguro.php");
-
+// include_once("../../estructura/headerSeguro.php");
+$session =new Session();
 // Indicamos que la respuesta será JSON
 header('Content-Type: application/json');
 
@@ -17,12 +20,14 @@ $idUsuario = $session->getUsuario();
 
 if (!$idUsuario) {
     $response = ["success" => false, "message" => "Error: No se pudo identificar al usuario autenticado."];
+    // ob_end_clean();
     echo json_encode($response);
     exit;
 }
 
 if (empty($datos['usnombre']) || empty($datos['usmail'])) {
     $response = ["success" => false, "message" => "Los campos Nombre de Usuario y Correo Electrónico son obligatorios."];
+    // ob_end_clean();
     echo json_encode($response);
     exit;
 }
@@ -41,6 +46,7 @@ foreach ($usuarios as $usuarioPass) {
 foreach ($usuarios as $u) {
     if (normalizarCorreo($u->getusmail()) == normalizarCorreo($datos['usmail']) && $u->getidusuario() != $idUsuario) {
         $response = ["success" => false, "message" => "El correo ya está registrado para otro usuario."];
+        // ob_end_clean();
         echo json_encode($response);
         exit;
     }
@@ -64,11 +70,12 @@ try {
     } else {
         $response = ["success" => false, "message" => "No se realizaron cambios en el perfil."];
     }
-    
+    // ob_end_clean();
     echo json_encode($response);
     exit;
 } catch (Exception $e) {
     $response = ["success" => false, "message" => "Error al actualizar el perfil: " . $e->getMessage()];
+    // ob_end_clean();
     echo json_encode($response);
     exit;
 }
