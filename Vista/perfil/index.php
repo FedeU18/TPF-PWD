@@ -36,7 +36,7 @@ foreach ($compras as $compra) {
 
 ?>
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -44,7 +44,7 @@ foreach ($compras as $compra) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil de Usuario</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-</head>
+</head> -->
 
 <body>
   <div class="container mt-5">
@@ -124,7 +124,7 @@ foreach ($compras as $compra) {
                   ?>
                 </td>
                 <td>
-                <form action="mostrarDetallesAction.php" method="post" class="mt-4">
+                <form action="mostrarDetalles.php" method="post" class="mt-4">
                   <input type="hidden" name="idcompra" value="<?= $compra->getIdCompra(); ?>">
                   <button type="submit" class="btn btn-primary">Detalles</button>
                 </form>
@@ -143,7 +143,7 @@ foreach ($compras as $compra) {
   </div>
 </body>
 
-</html>
+<!-- </html> -->
 
 <!-- Añade jQuery en el <head> -->
 <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->

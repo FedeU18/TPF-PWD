@@ -1,76 +1,69 @@
 <?php
-
 include_once "../../config.php";
 
-// Este archivo recibe los datos del formulario
-// Chequea que el usuario y el correo no esten registrados ya para otro usuario
-// Verifica que el correo sea válido
-// Verifica que el usuario tenga al menos 8 caracteres
-// Si todo esta bien realiza un hash de la contraseña para luego setear el nuevo usuario
-// Si todo esta bien, redirige a la página de inicio
-// Si no todo esta bien, muestra un mensaje de error y redirige a la página de registro
-
 $datos = data_submitted();
+$response = ["success" => false, "message" => ""];
 
 $objUsuario = new ABMUsuario;
 $usuarios = $objUsuario->buscar(null);
 $encontrado = false;
 
+// Verificar si el nombre de usuario o el correo ya existen
 foreach ($usuarios as $usuario) {
-  if ($usuario->getusnombre() === $datos['usnombre']) {
-    $mensaje = "El usuario ya existe";
-    $encontrado = true;
-    header("Location: index.php?mensaje=$mensaje");
-    exit;
-  }
-  if ($usuario->getusmail() === $datos['email']) {
-    $mensaje = "El correo ya existe";
-    $encontrado = true;
-    header("Location: index.php?mensaje=$mensaje");
-    exit;
-  }
+    if ($usuario->getusnombre() === $datos['usnombre']) {
+        $response["message"] = "El usuario ya existe";
+        echo json_encode($response);
+        exit;
+    }
+    if ($usuario->getusmail() === $datos['email']) {
+        $response["message"] = "El correo ya existe";
+        echo json_encode($response);
+        exit;
+    }
 }
 
-$err = 0;
-if ($encontrado == false) {
-  if (filter_var($datos['email'], FILTER_VALIDATE_EMAIL)) {
-    $err = 1;
-    if (strlen($datos['usnombre']) <= 8) {
-      $err = 2;
-      $pass = password_hash($datos['pass'], PASSWORD_DEFAULT);
-      $nuevoUsuario = [
-        "idusuario" => null,
-        "usnombre" => $datos['usnombre'],
-        "uspass" => $pass,
-        "usmail" => $datos['email'],
-        "usdeshabilitado" => null
-      ];
+if (!$encontrado) {
+    if (!filter_var($datos['email'], FILTER_VALIDATE_EMAIL)) {
+        $response["message"] = "El correo no es válido.";
+        echo json_encode($response);
+        exit;
+    }
 
-      // Registrar el usuario
-      $usuarioCreado = $objUsuario->alta($nuevoUsuario);
-
-      if ($usuarioCreado) {
-        // Asignar el rol al usuario recién creado
-        $objUsuarioRol = new ABMUsuarioRol;
-
-        // Obtiene el id del usuario recién creado
-        $idUsuarioCreado = $objUsuario->buscar(["usnombre" => $datos['usnombre']])[0]->getIdUsuario();
-
-
-        $idRolCliente = 1;
-
-        // Crear el registro en usuariorol
-        $nuevoUsuarioRol = [
-          "idusuario" => $idUsuarioCreado,
-          "idrol" => $idRolCliente
+    if (strlen($datos['usnombre']) < 8) {
+        $pass = password_hash($datos['pass'], PASSWORD_DEFAULT);
+        $nuevoUsuario = [
+            "idusuario" => null,
+            "usnombre" => $datos['usnombre'],
+            "uspass" => $pass,
+            "usmail" => $datos['email'],
+            "usdeshabilitado" => null,
         ];
 
-        $objUsuarioRol->alta($nuevoUsuarioRol);
-      }
-      $mensaje = "Se a registrado correctamente, inicie sesión con sus credenciales";
-      header("Location: ../login/login.php?mensaje=" . urlencode($mensaje));
-      exit;
+        // Registrar el usuario
+        $usuarioCreado = $objUsuario->alta($nuevoUsuario);
+
+        if ($usuarioCreado) {
+            $objUsuarioRol = new ABMUsuarioRol;
+
+            // Obtener el ID del usuario recién creado
+            $idUsuarioCreado = $objUsuario->buscar(["usnombre" => $datos['usnombre']])[0]->getIdUsuario();
+            $idRolCliente = 1;
+
+            // Crear el registro en usuariorol
+            $nuevoUsuarioRol = [
+                "idusuario" => $idUsuarioCreado,
+                "idrol" => $idRolCliente,
+            ];
+            $objUsuarioRol->alta($nuevoUsuarioRol);
+
+            $response["success"] = true;
+            $response["message"] = "Se ha registrado correctamente, inicie sesión con sus credenciales.";
+        } else {
+            $response["message"] = "Error al registrar el usuario.";
+        }
+    } else {
+        $response["message"] = "El nombre de usuario debe tener más de 8 caracteres.";
     }
-  }
 }
-echo $err;
+
+echo json_encode($response);

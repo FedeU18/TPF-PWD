@@ -2,10 +2,10 @@ Cosas por hacer
 
 -Estructura. Fede - terminado
 -Formulario inicio de sesión. Fede - terminado
--Formulario de registro. Joaquin - falta ajax
+-Formulario de registro. Joaquin - Terminado
 
 Cliente
--Perfil. Joaquin - falta ajax
+-Perfil. Joaquin - Terminado
 -Ver compras Joaquin - Terminado, a revisar, falta ajax
 -Listado de los productos. Fede - terminado
 -Carrito. Fede - terminado
@@ -13,7 +13,7 @@ Cliente
 -Lógica post pago. Fede - terminado
 
 Administrador
--Listado de productos (Crear, modificar y eliminar)
+    -Listado de productos (Crear, modificar y eliminar)
 -Listado de usuarios (Eliminar) Ema - TERMINADO
 
 Deposito

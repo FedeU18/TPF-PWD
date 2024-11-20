@@ -35,7 +35,7 @@ foreach ($compraItems as $item) {
 }
 ?>
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -43,7 +43,7 @@ foreach ($compraItems as $item) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detalle de Compra</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-</head>
+</head> -->
 
 <body>
   <div class="container mt-5">
@@ -97,4 +97,5 @@ foreach ($compraItems as $item) {
   </div>
 </body>
 
-</html>
+<!-- </html> -->
+<?php include_once "../../estructura/footer.php"; ?>
