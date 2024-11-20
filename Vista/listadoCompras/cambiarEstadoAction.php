@@ -15,9 +15,9 @@ if (!empty($datos['idCompraEstado']) && !empty($datos['estado'])) {
     if ($compra) {
         //verificar q el cambio d estado sea valido
         $estadoActual = $compra->getidcompraestadotipo();
-        if (($estadoActual == 1 && in_array($nuevoEstado, [2, 4])) || // Iniciada -> Aceptada/Cancelada
-            ($estadoActual == 2 && $nuevoEstado == 3) ||             // Aceptada -> Enviada
-            ($nuevoEstado == 4)) {                                   // Cancelar en cualquier estado
+        if (($estadoActual == 1 && in_array($nuevoEstado, [2, 4])) || //iniciada -> aceptada/cancelada
+            ($estadoActual == 2 && $nuevoEstado == 3) ||             //aceptada -> enviada
+            ($nuevoEstado == 4)) {                                   //cancelar en cualquier estado
 
             //actualizar estado compra
             $compra->setidcompraestadotipo($nuevoEstado);

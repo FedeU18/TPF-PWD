@@ -58,7 +58,7 @@ VALUES
 
 -- registros para productos:
 INSERT INTO
-  productos (
+  producto (
     idproducto,
     precio,
     pronombre,
