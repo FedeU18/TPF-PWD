@@ -83,7 +83,7 @@ $(document).ready(function(){
                         estadoText = 'Cancelada';
                         break;
                 }
-                $button.closest('tr').find('td').eq(1).text(estadoText);//actualiza estado en la tabla
+                $button.closest('tr').find('td').eq(1).text(estadoText); // Actualiza estado en la tabla
 
                 $button.addClass('btn-secondary').prop('disabled', true);
             },
