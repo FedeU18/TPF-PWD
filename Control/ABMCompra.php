@@ -70,14 +70,18 @@ class ABMCompra
    */
   public function alta($param)
   {
-    $resp = false;
-    $param['idcompra'] = null;  // Se inicializa el idcompra como null para que se genere automáticamente en la BD
+    $idCompra = -1; // Para almacenar el ID de la compra recién creada
+    $param['idcompra'] = null; // Se inicializa el idcompra como null para que se genere automáticamente en la BD
     $elObjCompra = $this->cargarObjeto($param);
+
     if ($elObjCompra != null && $elObjCompra->insertar()) {
-      $resp = true;
+      // Usamos el método de la clase Compra para obtener el último ID insertado
+      $idCompra = $elObjCompra->getIdcompra();
     }
-    return $resp;
+
+    return $idCompra; // Retorna el ID de la compra
   }
+
 
   /**
    * Permite eliminar un objeto Compra
