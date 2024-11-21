@@ -7,6 +7,9 @@ $objProductos = new ABMProducto();
 $productos = $objProductos->buscar(null);
 ?>
 <div class="table-responsive">
+<a href="formAgregarProd.php" class="btn btn-primary">Agregar productos</a>
+
+<br><br>
   <table class="table table-striped table-bordered">
     <thead class="table-dark">
       <tr>

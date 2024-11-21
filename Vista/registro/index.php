@@ -4,7 +4,7 @@ include_once "../../config.php";
 include_once "../../estructura/header.php"
 ?>
 
-<body>
+
 <div class="container mt-5">
     <h1 class="text-center">Registro nuevo usuario</h1>
     
@@ -27,7 +27,7 @@ include_once "../../estructura/header.php"
         </form>
     </div>
 </div>
-</body>
+
 
 <script>
   $(document).ready(function() {

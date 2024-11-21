@@ -14,29 +14,38 @@ class Session
   //actualiza variables de sesion con el id del user
   public function iniciar($nombreUser, $psw)
   {
-    $resp = false;
-    $obj = new ABMUsuario();
-    $param = [
-      "usnombre" => $nombreUser,
-      "usdeshabilitado" => NULL
-    ];
-
-    //buscar user
-    $res = $obj->buscar($param);
-
-    //Si el res no esta vacio, le asigna el id del user a la sesion
-    if (!empty($res)) {
-      $usuario = $res[0];
-      if (password_verify($psw, $usuario->getuspass())) {
-        $_SESSION['idUsuario'] = $usuario->getidusuario();
-        $resp = true;
+      $resp = false;
+      $obj = new ABMUsuario();
+      $param = ["usnombre" => $nombreUser];
+  
+      //buscar el user por nombre
+      $res = $obj->buscar($param);
+    
+      //Si el res no esta vacio, le asigna el id del user a la sesion
+      if (!empty($res)) {
+          $usuario = $res[0];
+  
+          //verificar si el user esta deshab
+          if ($usuario->getusdeshabilitado() !== '0000-00-00') {
+              //user deshab, no puede iniciar sesion
+              $this->cerrar();//se cierra cualquier sesion activa
+              $resp = false;//no permitir inicio
+          } else {
+              if (password_verify($psw, $usuario->getuspass())) {
+                  $_SESSION['idUsuario'] = $usuario->getidusuario();
+                  $resp = true;//inicia sesion exiotsamente
+              } else {
+                  //contra incorrecta
+                  $this->cerrar();//se cierra cualquier sesion activa
+                  $resp = false;//no permitir inicio
+              }
+          }
+      } else {
+          //si no encuentra al user se cierra la sesion
+          $this->cerrar();
       }
-    } else {
-      //si no encuentra al user se cierra la sesion
-      $this->cerrar();
-    }
-
-    return $resp;
+  
+      return $resp;
   }
 
   //valida si la sesion actual tiene un id de user valido

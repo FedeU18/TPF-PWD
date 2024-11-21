@@ -12,17 +12,8 @@ $usuario = $usuario[0];
 ?>
 
 
-<!-- <!DOCTYPE html>
-<html lang="es">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfil de Usuario</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-</head> -->
 
-<body>
   <div class="container mt-5">
     <h1 class="text-center">Modificar Contraseña</h1>
 
@@ -50,7 +41,7 @@ $usuario = $usuario[0];
 <hr class="mt-4">
 <a href="index.php" class="btn btn-danger">Volver al perfil</a>
   </div>
-</body>
+
 <script>
   $(document).ready(function() {
     $("#btn-contraseña").click(function(e) {

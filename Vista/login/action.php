@@ -10,13 +10,16 @@ if (isset($datos['accion'])) {
   if ($datos['accion'] == "login") {
     $resp = $objTrans->iniciar($datos['usnombre'], $datos['uspass']);
     if ($resp) {
+      //inicio sesion exitoso
       $response = [
         "success" => true,
         "redirect" => "../productos/productos.php"
       ];
     } else {
-      $response["msg"] = "Usuario o contraseña incorrectos.";
+      //si falla el inicio
+      $response["msg"] = "Usuario o contraseña incorrectos, o cuenta deshabilitada.";
     }
+    //respuesta en json
     header('Content-Type: application/json');
     echo json_encode($response);
     exit;
