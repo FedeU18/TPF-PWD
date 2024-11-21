@@ -33,30 +33,51 @@ $lista = $obj->buscar(null);
           <th scope="col">Acciones</th>
         </tr>
       </thead>
-      <tbody>
+        <tbody>
         <?php
-          if (count($lista) > 0) {
-              foreach ($lista as $objTabla) {
-                  echo '<tr>';
-                  echo '<td>' . $objTabla->getidusuario() . '</td>';
-                  echo '<td>' . $objTabla->getusnombre() . '</td>';
-                  echo '<td>' . $objTabla->getusmail() . '</td>';
-                  echo '<td>' . ($objTabla->getusdeshabilitado() == '0000-00-00' || is_null($objTabla->getusdeshabilitado()) ? 'Activo' : 'Deshabilitado') . '</td>';
-                  echo '<td>';
-                  echo '<a class="btn btn-primary btn-sm" role="button" href="./editar.php?editar=editar&idusuario=' . $objTabla->getidusuario() . '">Roles</a>';
-                  if ($objTabla->getusdeshabilitado() == '0000-00-00' || is_null($objTabla->getusdeshabilitado())) {
-                      echo ' <button class="btn btn-danger btn-sm btn-accion" data-accion="deshabilitar" data-id="' . $objTabla->getidusuario() . '">Deshabilitar</button>';
-                  } else {
-                      echo ' <button class="btn btn-success btn-sm btn-accion" data-accion="habilitar" data-id="' . $objTabla->getidusuario() . '">Habilitar</button>';
-                  }
-                  echo '</td>';
-                  echo '</tr>';
-              }
-          } else {
-              echo '<tr><td colspan="5" class="text-center text-muted">No se encontraron usuarios.</td></tr>';
-          }
+            if (count($lista) > 0) {
+                foreach ($lista as $objTabla) {
+                    echo '<tr>';
+                    echo '<td>' . $objTabla->getidusuario() . '</td>';
+                    echo '<td>' . $objTabla->getusnombre() . '</td>';
+                    echo '<td>' . $objTabla->getusmail() . '</td>';
+                    echo '<td>' . ($objTabla->getusdeshabilitado() == '0000-00-00' || is_null($objTabla->getusdeshabilitado()) ? 'Activo' : 'Deshabilitado') . '</td>';
+                    echo '<td>';
+                    echo '<a class="btn btn-primary btn-sm" role="button" href="./editar.php?editar=editar&idusuario=' . $objTabla->getidusuario() . '">Roles</a>';
+
+                    //verificar q el user listado no tenga el rol 2 (admin)
+                    $abmUsuarioRol = new ABMUsuarioRol();
+                    $rolesUsuario = $abmUsuarioRol->buscar(['idusuario' => $objTabla->getidusuario()]);
+
+                    $esAdmin = false;
+                    $i = 0;
+                    $totalRoles = count($rolesUsuario);
+
+                    //verificar q tenga el rol 2
+                    while ($i < $totalRoles && !$esAdmin) {
+                        if ($rolesUsuario[$i]->getidrol() == 2) {
+                            $esAdmin = true;
+                        }
+                        $i++;
+                    }
+
+                    //mostrar los botones si no es admin
+                    if (!$esAdmin) {
+                        if ($objTabla->getusdeshabilitado() == '0000-00-00' || is_null($objTabla->getusdeshabilitado())) {
+                            echo ' <button class="btn btn-danger btn-sm btn-accion" data-accion="deshabilitar" data-id="' . $objTabla->getidusuario() . '">Deshabilitar</button>';
+                        } else {
+                            echo ' <button class="btn btn-success btn-sm btn-accion" data-accion="habilitar" data-id="' . $objTabla->getidusuario() . '">Habilitar</button>';
+                        }
+                    }
+
+                    echo '</td>';
+                    echo '</tr>';
+                }
+            } else {
+                echo '<tr><td colspan="5" class="text-center text-muted">No se encontraron usuarios.</td></tr>';
+            }
         ?>
-      </tbody>
+        </tbody>
     </table>
   </div>
 </div>
