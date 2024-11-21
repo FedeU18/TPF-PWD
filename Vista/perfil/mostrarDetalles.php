@@ -35,19 +35,10 @@ foreach ($compraItems as $item) {
 }
 ?>
 
-<!-- <!DOCTYPE html>
-<html lang="es">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalle de Compra</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-</head> -->
-
-<body>
   <div class="container mt-5">
     <h1 class="text-center">Detalle de la Compra #<?= htmlspecialchars($idCompra); ?></h1>
+    <div id="toast" class="toast"></div>
 
     <div class="table-responsive mt-4">
       <table class="table table-striped table-bordered table-hover">
@@ -91,11 +82,59 @@ foreach ($compraItems as $item) {
       </table>
     </div>
 
+    <form action="cancelarCompra.php" mb-3>
+    <button class="btn btn-danger btn-sm cancerlar-compra" id="btn-cancelarCompra" data-id="<?php echo $idCompra; ?>">Cancelar Compra</button>
+    </form>
+
     <div class="text-center mt-4">
       <a href="index.php" class="btn btn-secondary">Volver al Historial</a>
     </div>
   </div>
-</body>
 
-<!-- </html> -->
+  <script>
+      function showToast(message, type = "success") {
+        const toast = document.getElementById("toast");
+        
+        // Aplicar clase según el tipo de mensaje
+        toast.className = `toast ${type} show`;
+        toast.textContent = message;
+        
+        // Ocultar el mensaje después de 3 segundos
+        setTimeout(() => {
+          toast.className = "toast";
+        }, 3000);
+      }
+
+
+    $(document).ready(function(){
+      $('.cancerlar-compra').click(function(e) {
+        e.preventDefault();
+        $("mensaje").empty();
+
+        let idCompra =  $(this).data('id')
+        if (confirm('¿Estás seguro de que deseas cancelar la compra?')) {
+        $.ajax({
+          type: 'POST',
+          url: 'cancelarCompra.php',
+          data: { id: idCompra },
+          dataType: 'json',
+          success: function(respuesta) {
+            console.log(respuesta)
+            if (respuesta.success) {
+              showToast(respuesta.message, "success");
+              
+            } else {
+              showToast(respuesta.message, "error");
+            }
+          },
+          error: function(error) {
+            console.log(error)
+            showToast("Error en la conexión al servidor.", "error");
+          }
+        });
+      }
+    });
+});
+  </script>
+
 <?php include_once "../../estructura/footer.php"; ?>
