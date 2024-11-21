@@ -13,7 +13,7 @@ Cliente
 -Lógica post pago. Fede - TERMINADO
 
 Administrador
--Listado de productos (Crear, modificar y eliminar)
+-Listado de productos (Crear, modificar y eliminar) Joaquin, en proceso
 -Listado de usuarios (Eliminar) Ema - TERMINADO
 
 Deposito
