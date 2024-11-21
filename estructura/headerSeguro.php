@@ -30,7 +30,7 @@ if ($resp) {
       <?php
       if (in_array(3, $rol)) { //verificar q tenga el rol 2
       ?>
-        <a href="../listadoCompras/listarCompras.php" type="button" class="btn btn-outline-primary mr-2">Compras</a>
+        <a href="../compras/compras.php" type="button" class="btn btn-outline-primary mr-2">Compras</a>
       <?php
       }
       ?>
