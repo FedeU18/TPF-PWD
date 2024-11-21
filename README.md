@@ -6,7 +6,7 @@ Cosas por hacer
 
 Cliente
 -Perfil. Joaquin - TERMINADO
--Ver compras Joaquin - TERMINADO, a revisar, falta ajax
+-Ver compras Joaquin - TERMINADO
 -Listado de los productos. Fede - TERMINADO
 -Carrito. Fede - TERMINADO
 -Pasarela de pagos (Stripe). Fede - TERMINADO
