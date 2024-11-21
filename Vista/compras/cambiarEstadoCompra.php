@@ -144,34 +144,61 @@ if (isset($datos['idcompra']) && isset($datos['accion'])) {
       $body = 'Tu compra ha sido enviada. Estará llegando pronto.';
       break;
 
-    case 'cancelar':
-      // Si el estado actual es 'iniciada' o 'aceptada', cambiamos el estado a 'cancelada'
-      $nuevoEstado = 4; // Estado cancelada
-      $paramNuevoEstado = [
+case 'cancelar':
+    //si el estado actual es 'iniciada' o 'aceptada', cambiamos el estado a 'cancelada'
+    $nuevoEstado = 4;//estado cancelada
+    $paramNuevoEstado = [
         'idcompra' => $idCompra,
         'idcompraestadotipo' => $nuevoEstado,
-        'cefechaini' => date('Y-m-d H:i:s'), // Usamos la fecha y hora actual
+        'cefechaini' => date('Y-m-d H:i:s'), //usamos la fecha y hora actual
         'cefechafin' => null
-      ];
-      $paramModificacion = [
+    ];
+    $paramModificacion = [
         'idcompraestado' => $ultimoEstado->getidcompraestado(),
         "idcompra" => $idCompra,
         'idcompraestadotipo' => $ultimoEstado->getidcompraestadotipo(),
         'cefechaini' => $ultimoEstado->getcefechaini(),
         'cefechafin' => date('Y-m-d H:i:s')
-      ];
-      $resultado = $objAbmCompraEstado->modificacion($paramModificacion);
-      $resultadoAlta = $objAbmCompraEstado->alta($paramNuevoEstado);
-      if ($resultado && $resultadoAlta) {
-        $response["success"] = true;
-        $response["msg"] = "Estado Actualizado";
-      } else {
+    ];
+
+    //actualizar estado de la compra
+    $resultado = $objAbmCompraEstado->modificacion($paramModificacion);
+    $resultadoAlta = $objAbmCompraEstado->alta($paramNuevoEstado);
+
+    if ($resultado && $resultadoAlta) {
+        //recuperar el stock de los productos asociados a la compra
+        $recuperacionExitosa = true;
+        foreach ($productos as $prod) {
+            $paramProd = [
+                'idproducto' => $prod['idproducto'],
+                'precio' => $prod['precio'],
+                'pronombre' => $prod['pronombre'],
+                'prodetalle' => $prod['prodetalle'],
+                'procantstock' => $prod['procantstock'] + $prod["cantidad"], // Sumamos la cantidad al stock
+            ];
+            $responseProd = $objAbmProducto->modificacion($paramProd);
+            if (!$responseProd) {
+                $recuperacionExitosa = false;
+                $response["msg"] = "No se pudo recuperar el stock del producto ID: " . $prod['idproducto'];
+                break;
+            }
+        }
+
+        if ($recuperacionExitosa) {
+            $response["success"] = true;
+            $response["msg"] = "Estado Actualizado y stock recuperado";
+        } else {
+            $response["success"] = false;
+            $response["msg"] = "Estado cancelado, pero ocurrió un error al recuperar el stock.";
+        }
+    } else {
         $response["success"] = false;
-        $response["msg"] = "No se pudo actualizar el estado";
-      }
-      $subject = 'Compra Cancelada';
-      $body = 'Lamentamos informarte que tu compra ha sido cancelada.';
-      break;
+        $response["msg"] = "No se pudo actualizar el estado a cancelado";
+    }
+
+    $subject = 'Compra Cancelada';
+    $body = 'Lamentamos informarte que tu compra ha sido cancelada.';
+    break;
 
     default:
       echo 'error3';
