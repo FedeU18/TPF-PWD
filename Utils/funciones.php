@@ -1,4 +1,11 @@
 <?php
+
+
+include_once '../../vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 function data_submitted()
 {
   $_AAux = array();
@@ -38,3 +45,34 @@ spl_autoload_register(function ($class_name) {
     }
   }
 });
+
+function enviarCorreo($correo, $nombre, $subject, $body)
+{
+  $mail = new PHPMailer(true);
+
+  try {
+    //config sv
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'gruposi797@gmail.com';
+    $mail->Password = 'xtfb fvdw zwic sttw';
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = 587;
+
+    //quien manda, a quien le manda
+    $mail->setFrom('gruposi797@gmail.com', 'Notificacion de Compra');
+    $mail->addAddress($correo, $nombre);
+
+    //config contenido
+    $mail->isHTML(true);
+    $mail->Subject = $subject;
+    $mail->Body = "<p>Hola $nombre,</p><p>$body</p><p>Saludos,<br>El equipo de soporte</p>";
+    $mail->AltBody = strip_tags($body);
+
+    //mandar correo
+    $mail->send();
+  } catch (Exception $e) {
+    echo "Error al enviar correo: {$mail->ErrorInfo}";
+  }
+}
