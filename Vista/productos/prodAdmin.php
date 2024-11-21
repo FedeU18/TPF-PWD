@@ -7,25 +7,7 @@ $objProductos = new ABMProducto();
 $productos = $objProductos->buscar(null);
 ?>
 
-<style>
-  #mensaje {
-  padding: 15px;
-  border-radius: 5px;
-  font-size: 14px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
 
-#mensaje.success {
-  background-color: #28a745;
-  color: #fff;
-}
-
-#mensaje.error {
-  background-color: #dc3545;
-  color: #fff;
-}
-
-</style>
 
 <div class="table-responsive">
 <a href="formAgregarProd.php" class="btn btn-primary">Agregar productos</a><br><br>
@@ -71,35 +53,7 @@ $productos = $objProductos->buscar(null);
   </table>
 </div>
 
-<style>
-  .toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #333;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 1000;
-  }
 
-  .toast.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .toast.success {
-    background-color: #28a745; /* Verde */
-  }
-
-  .toast.error {
-    background-color: #dc3545; /* Rojo */
-  }
-</style>
 
 
 <script>

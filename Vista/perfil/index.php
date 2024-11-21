@@ -119,6 +119,7 @@ foreach ($compras as $compra) {
                 <form action="mostrarDetalles.php" method="post" class="mt-4">
                   <input type="hidden" name="idcompra" value="<?= $compra->getIdCompra(); ?>">
                   <button type="submit" class="btn btn-primary">Detalles</button>
+                  
                 </form>
 
                 </td>
@@ -135,10 +136,8 @@ foreach ($compras as $compra) {
   </div>
 
 
-<!-- </html> -->
 
-<!-- Añade jQuery en el <head> -->
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
 <script>
   $(document).ready(function() {
     $("#btn-perfil").click(function(e) {
