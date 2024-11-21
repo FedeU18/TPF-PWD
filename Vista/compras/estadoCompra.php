@@ -82,7 +82,6 @@ $listadoEstados = $objAbmCompraEstado->buscar($param);
       <div class="alert alert-info">No hay acciones disponibles para el estado actual.</div>
     <?php endif; ?>
   </div>
-  <?php echo "<h1>$estadoActual</h1>" ?>
   <a href="compras.php" class="btn btn-secondary mt-3">Volver al Listado de Compras</a>
 </div>
 <script>
@@ -116,7 +115,6 @@ $listadoEstados = $objAbmCompraEstado->buscar($param);
         },
         dataType: 'json', // Asegúrate de que el servidor responda JSON puro
         success: function(response) {
-          console.log(response.productos)
           if (response.success) {
             $("#mensaje").html(
               `<div class="alert alert-info">${response.msg}</div>`
