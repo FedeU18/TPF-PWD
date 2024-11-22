@@ -1,21 +1,36 @@
 <?php
-include_once "../../config.php";
+include_once '../../config.php';
+
+$response = ['exito' => false, 'mensaje' => 'Ocurrió un error inesperado.'];
 $datos = data_submitted();
 if ($datos) {
-  $data = [
-    'menombre' => $datos['menombre'],
-    'medescripcion' => $datos['medescripcion'],
-    'idpadre' => empty($datos['idpadre']) ? null : $datos['idpadre'],
-    'medeshabilitado' => $datos['estado']
-  ];
+  $nombre = $datos['nombreMenu'] ?? '';
+  $descripcion = $datos['descripcionMenu'] ?? '';
+  $estado = $datos['estadoMenu'] ?? '';
+  $menuPadre = $datos['menuPadre'] ?? null;
 
-  $abmMenu = new ABMMenu();
-  $resultado = $abmMenu->alta($data);
+  if ($nombre && $descripcion && $estado) {
+    $abmMenu = new ABMMenu();
 
-  if ($resultado) {
-    header("Location: menu.php?mensaje=Menú creado con éxito");
+    $estado = $estado === 'habilitado' ? 1 : 0;
+
+    $param = [
+      'menombre' => $nombre,
+      'medescripcion' => $descripcion,
+      'idpadre' => $menuPadre,
+      'medeshabilitado' => null,
+    ];
+
+    if ($abmMenu->alta($param)) {
+      $response['exito'] = true;
+      $response['mensaje'] = 'Menú creado exitosamente.';
+    } else {
+      $response['mensaje'] = 'No se pudo crear el menú.';
+    }
   } else {
-    header("Location: crearMenu.php?error=No se pudo crear el menú");
+    $response['mensaje'] = 'Todos los campos son obligatorios.';
   }
-  exit;
 }
+
+header('Content-Type: application/json');
+echo json_encode($response);
