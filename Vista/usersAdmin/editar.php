@@ -96,7 +96,7 @@ foreach ($listaRolesDisponibles as $rolDisponible) {
 
 <script>
   $(document).on('click', '.btn-accion', function(e) {
-    e.preventDefault(); //prevenir q recargue la pagina
+    e.preventDefault();//prevenir q recargue la pagina
 
     const accion = $(this).data('accion'); //accion nuevo o borrar rol
     const idUsuario = $(this).data('idusuario');
@@ -114,7 +114,7 @@ foreach ($listaRolesDisponibles as $rolDisponible) {
       dataType: 'json',
       success: function(response) {
         if (response.success) {
-          // Mensaje de éxito
+          //msj extio
           mostrarMsj(response.message, 'success');
 
           //actualizar tabla dinamic sin recargar la pag
