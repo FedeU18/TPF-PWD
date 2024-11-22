@@ -13,7 +13,7 @@ if ($rol == 1) {
 
 
 <div class="container mt-5">
-    <h1 class="text-center">Perfil de Usuario</h1>
+    <h1 class="text-center">Cargar Nuevo Producto</h1>
 
     <div class="d-flex justify-content-center mt-4">
         <form id="formProducto" class="w-50">
