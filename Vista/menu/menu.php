@@ -3,7 +3,11 @@
 include_once "../../config.php";
 $titulo = "Menú";
 include_once "../../estructura/headerSeguro.php";
-
+if ($rol != 2) {
+  $mensaje = "Acceso denegado. Solo los administradores pueden acceder.";
+  echo "<script>location.href = '../login/login.php?msg=" . urlencode($mensaje) . "';</script>";
+  exit; // detener ejecución
+}
 $abmMenu = new ABMMenu();
 $abmMenuRol = new ABMMenuRol();
 
