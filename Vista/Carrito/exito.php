@@ -109,5 +109,11 @@ if (($idcompra = $compra->alta($paramCompra)) > 0) {
 
 $session->vaciarCarrito();
 echo "<h1>$msg</h1>";
+?>
+<a href="../productos/productos.php" class="btn btn-primary">Seguir comprando</a>
 
+<?php
 include_once "../../estructura/footer.php";
+
+?>
+
