@@ -3,7 +3,7 @@ include_once "../../config.php";
 $titulo = "Detalle de Compra";
 include_once "../../estructura/headerSeguro.php";
 
-if (!in_array(3, $rol)) {
+if ($rol != 3) {
   $mensaje = "Acceso denegado. Solo los Depositores pueden acceder.";
   echo "<script>location.href = '../perfil/index.php?msg=" . urlencode($mensaje) . "';</script>";
   exit; // detener ejecución

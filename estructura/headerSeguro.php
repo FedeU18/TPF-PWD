@@ -24,7 +24,7 @@ if ($resp) {
   $rol = $session->getRol()[0];
   $submenus = $abmMenu->buscar(["idpadre" => $rol]);
 } else {
-  $mensaje = "Error, vuelva a intentarlo";
+  $mensaje = "Inicie sesión";
   echo "<script>location.href = '../login/login.php?msg=" . $mensaje . "';</script>";
 }
 ?>
@@ -32,7 +32,7 @@ if ($resp) {
 <body class="d-flex flex-column min-vh-100">
   <header class="d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 border-bottom">
     <div class="col-md-3 mb-2 mb-md-0">
-      <a href="../productos/productos.php">ACÁ IRÍA EL LOGO</a>
+      <a class="mx-3 w-25 h-25" href="../productos/productos.php"><img class="w-25 h-25" src="../../estructura/assets/pancho.jpg" alt="el perrito de Ema"></a>
     </div>
     <div class="col-5 d-flex flex-row text-end">
       <?php

@@ -3,7 +3,7 @@ include_once "../../config.php";
 $titulo = "Estados de Compra";
 include_once "../../estructura/headerSeguro.php";
 
-if (!in_array(3, $rol)) {
+if ($rol != 3) {
   $mensaje = "Acceso denegado. Solo los Depositores pueden acceder.";
   echo "<script>location.href = '../perfil/index.php?msg=" . urlencode($mensaje) . "';</script>";
   exit; // detener ejecución
@@ -85,7 +85,7 @@ $listadoEstados = $objAbmCompraEstado->buscar($param);
   <a href="compras.php" class="btn btn-secondary mt-3">Volver al Listado de Compras</a>
 </div>
 <script>
-$(document).ready(function() {
+  $(document).ready(function() {
     //aceptar compra
     $('#aceptarCompra').click(function() {
       var idCompra = $(this).data('compra');
@@ -112,7 +112,7 @@ $(document).ready(function() {
           idcompra: idCompra,
           accion: accion
         },
-        dataType: 'json', 
+        dataType: 'json',
         success: function(response) {
           if (response.success) {
             $("#mensaje").html(
@@ -133,7 +133,7 @@ $(document).ready(function() {
       });
     }
 
-});
+  });
 </script>
 
 <?php
