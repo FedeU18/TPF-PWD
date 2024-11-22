@@ -6,6 +6,12 @@ include_once "../../estructura/headerSeguro.php";
 $session = new Session();
 $carrito = $session->obtenerProductosCarrito();
 
+if ($rol != 1) {
+  $mensaje = "Acceso denegado. Solo los Depositores pueden acceder.";
+  echo "<script>location.href = '../perfil/index.php?msg=" . urlencode($mensaje) . "';</script>";
+  exit; // detener ejecución
+}
+
 $objProducto = new ABMProducto();
 ?>
 

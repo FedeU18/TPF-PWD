@@ -86,16 +86,21 @@ class ABMMenu
   {
     $where = "true";
     if ($param != null) {
-      if (isset($param['idmenu']))
-        $where .= " and idmenu = " . $param['idmenu'];
-      if (isset($param['menombre']))
-        $where .= " and menombre = '" . $param['menombre'] . "'";
-      if (isset($param['medescripcion']))
-        $where .= " and medescripcion = '" . $param['medescripcion'] . "'";
-      if (isset($param['idpadre']))
-        $where .= " and idpadre = " . $param['idpadre'];
-      if (isset($param['medeshabilitado']))
-        $where .= " and medeshabilitado = '" . $param['medeshabilitado'] . "'";
+      if (array_key_exists('idmenu', $param))
+        $where .= " AND idmenu = " . $param['idmenu'];
+      if (array_key_exists('menombre', $param))
+        $where .= " AND menombre = '" . $param['menombre'] . "'";
+      if (array_key_exists('medescripcion', $param))
+        $where .= " AND medescripcion = '" . $param['medescripcion'] . "'";
+      if (array_key_exists('idpadre', $param)) {
+        if (is_null($param['idpadre'])) {
+          $where .= " AND idpadre IS NULL";
+        } else {
+          $where .= " AND idpadre = " . $param['idpadre'];
+        }
+      }
+      if (array_key_exists('medeshabilitado', $param))
+        $where .= " AND medeshabilitado = '" . $param['medeshabilitado'] . "'";
     }
     $obj = new Menu();
     $arreglo = $obj->listar($where);

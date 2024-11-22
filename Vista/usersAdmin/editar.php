@@ -4,10 +4,10 @@ include_once("../../config.php");
 include_once("../../estructura/headerSeguro.php");
 
 //verifico q entre un user con el rol de admin a la pagina
-if (!in_array(2, $rol)) {
+if ($rol != 2) {
   $mensaje = "Acceso denegado. Solo los administradores pueden acceder.";
   echo "<script>location.href = '../perfil/index.php?msg=" . urlencode($mensaje) . "';</script>";
-  exit;//detener ejec
+  exit; //detener ejec
 }
 
 $datosIngresados = data_submitted();
@@ -18,13 +18,13 @@ $usuarioRoles = null;
 //verificar si hay un idusuario valido para buscar los roles
 $listaRolesAsignados = [];
 if (!empty($datosIngresados['idusuario']) && $datosIngresados['idusuario'] != -1) {
-    $listaRolesAsignados = $abmUsuario->darRoles($datosIngresados);
-    if (count($listaRolesAsignados) == 1) {
-        $usuarioRoles = $listaRolesAsignados[0];
-    }
+  $listaRolesAsignados = $abmUsuario->darRoles($datosIngresados);
+  if (count($listaRolesAsignados) == 1) {
+    $usuarioRoles = $listaRolesAsignados[0];
+  }
 } else {
-    echo '<div class="alert alert-danger">Error: No se recibió un ID de usuario válido.</div>';
-    exit;//detener ejec para evitar errores posteriores
+  echo '<div class="alert alert-danger">Error: No se recibió un ID de usuario válido.</div>';
+  exit; //detener ejec para evitar errores posteriores
 }
 
 $abmRol = new ABMRol();
@@ -33,7 +33,7 @@ $listaRolesDisponibles = $abmRol->buscar(null);
 //indice de descripciones basadas en los ids de los roles disponibles
 $rolesDescripcion = [];
 foreach ($listaRolesDisponibles as $rolDisponible) {
-    $rolesDescripcion[$rolDisponible->getidrol()] = $rolDisponible->getrodescripcion();
+  $rolesDescripcion[$rolDisponible->getidrol()] = $rolDisponible->getrodescripcion();
 }
 ?>
 
@@ -54,13 +54,13 @@ foreach ($listaRolesDisponibles as $rolDisponible) {
 
   <div class="row float-right mb-3">
     <div class="col-md-12">
-        <?php
-        if (count($listaRolesDisponibles) > 0) {
-            foreach ($listaRolesDisponibles as $rolDisponible) {
-                echo '<button class="btn btn-primary btn-sm m-1 btn-accion" data-accion="nuevoRol" data-idrol="' . $rolDisponible->getidrol() . '" data-idusuario="' . htmlspecialchars($datosIngresados['idusuario']) . '">Agregar Rol ' . htmlspecialchars($rolDisponible->getrodescripcion()) . '</button>';
-            }
+      <?php
+      if (count($listaRolesDisponibles) > 0) {
+        foreach ($listaRolesDisponibles as $rolDisponible) {
+          echo '<button class="btn btn-primary btn-sm m-1 btn-accion" data-accion="nuevoRol" data-idrol="' . $rolDisponible->getidrol() . '" data-idusuario="' . htmlspecialchars($datosIngresados['idusuario']) . '">Agregar Rol ' . htmlspecialchars($rolDisponible->getrodescripcion()) . '</button>';
         }
-        ?>
+      }
+      ?>
     </div>
   </div>
 
@@ -73,20 +73,20 @@ foreach ($listaRolesDisponibles as $rolDisponible) {
           <th scope="col">Acciones</th>
         </tr>
       </thead>
-        <tbody>
-          <?php
-            if (count($listaRolesAsignados) > 0) {
-                foreach ($listaRolesAsignados as $rolAsignado) {
-                    echo '<tr>';
-                    echo '<td>' . htmlspecialchars($rolAsignado->getidrol()) . '</td>';
-                    echo '<td>' . htmlspecialchars($rolesDescripcion[$rolAsignado->getidrol()]) . '</td>';
-                    echo '<td><button class="btn btn-danger btn-sm btn-accion" data-accion="borrarRol" data-idrol="' . htmlspecialchars($rolAsignado->getidrol()) . '" data-idusuario="' . htmlspecialchars($rolAsignado->getidusuario()) . '">Borrar</button></td>';
-                    echo '</tr>';
-                }
-            } else {
-                echo '<tr><td colspan="3" class="text-center text-muted">No se encontraron roles asignados.</td></tr>';
-            }
-          ?>
+      <tbody>
+        <?php
+        if (count($listaRolesAsignados) > 0) {
+          foreach ($listaRolesAsignados as $rolAsignado) {
+            echo '<tr>';
+            echo '<td>' . htmlspecialchars($rolAsignado->getidrol()) . '</td>';
+            echo '<td>' . htmlspecialchars($rolesDescripcion[$rolAsignado->getidrol()]) . '</td>';
+            echo '<td><button class="btn btn-danger btn-sm btn-accion" data-accion="borrarRol" data-idrol="' . htmlspecialchars($rolAsignado->getidrol()) . '" data-idusuario="' . htmlspecialchars($rolAsignado->getidusuario()) . '">Borrar</button></td>';
+            echo '</tr>';
+          }
+        } else {
+          echo '<tr><td colspan="3" class="text-center text-muted">No se encontraron roles asignados.</td></tr>';
+        }
+        ?>
       </tbody>
     </table>
   </div>
@@ -95,28 +95,32 @@ foreach ($listaRolesDisponibles as $rolDisponible) {
 </div>
 
 <script>
-$(document).on('click', '.btn-accion', function (e) {
-    e.preventDefault();//prevenir q recargue la pagina
+  $(document).on('click', '.btn-accion', function(e) {
+    e.preventDefault(); //prevenir q recargue la pagina
 
-    const accion = $(this).data('accion');//accion nuevo o borrar rol
+    const accion = $(this).data('accion'); //accion nuevo o borrar rol
     const idUsuario = $(this).data('idusuario');
     const idRol = $(this).data('idrol');
     const button = $(this);
 
     $.ajax({
-        url: './ajaxRolesAction.php',
-        type: 'POST',
-        data: { accion: accion, idusuario: idUsuario, idrol: idRol },
-        dataType: 'json',
-        success: function (response) {
-            if (response.success) {
-                // Mensaje de éxito
-                mostrarMsj(response.message, 'success');
+      url: './ajaxRolesAction.php',
+      type: 'POST',
+      data: {
+        accion: accion,
+        idusuario: idUsuario,
+        idrol: idRol
+      },
+      dataType: 'json',
+      success: function(response) {
+        if (response.success) {
+          // Mensaje de éxito
+          mostrarMsj(response.message, 'success');
 
-                //actualizar tabla dinamic sin recargar la pag
-                if (accion === 'nuevoRol') {
-                    //accion agregar, nueva fila
-                    const newRow = `
+          //actualizar tabla dinamic sin recargar la pag
+          if (accion === 'nuevoRol') {
+            //accion agregar, nueva fila
+            const newRow = `
                         <tr>
                             <td>${idRol}</td>
                             <td>${button.text().replace('Agregar Rol', '').trim()}</td>
@@ -125,31 +129,31 @@ $(document).on('click', '.btn-accion', function (e) {
                             </td>
                         </tr>
                     `;
-                    $('table tbody').append(newRow);
-                } else if (accion === 'borrarRol') {
-                    //accion borrar, sacar fila
-                    button.closest('tr').remove();
-                }
-            } else {
-                //msj error
-                mostrarMsj(response.message, 'danger');
-            }
-        },
-        error: function () {
-            //msj error si falla la soli
-            mostrarMsj('Ocurrió un error al procesar la solicitud.', 'danger');
+            $('table tbody').append(newRow);
+          } else if (accion === 'borrarRol') {
+            //accion borrar, sacar fila
+            button.closest('tr').remove();
+          }
+        } else {
+          //msj error
+          mostrarMsj(response.message, 'danger');
         }
+      },
+      error: function() {
+        //msj error si falla la soli
+        mostrarMsj('Ocurrió un error al procesar la solicitud.', 'danger');
+      }
     });
-});
-//mostrar msj dinamic en div
-function mostrarMsj(msj, type) {
+  });
+  //mostrar msj dinamic en div
+  function mostrarMsj(msj, type) {
     var msjDiv = $('<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert"></div>');
     msjDiv.text(msj);
     msjDiv.append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
 
     //msj en el contenedor
     $("#mensaje").html(msjDiv).show();
-}
+  }
 </script>
 
 <?php

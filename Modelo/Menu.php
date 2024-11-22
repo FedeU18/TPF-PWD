@@ -175,4 +175,16 @@ class Menu extends BaseDatos
     }
     return $arreglo;
   }
+  public function asociarRol($idrol)
+  {
+    $menuRol = new MenuRol();
+    $menuRol->setear($this->idmenu, $idrol);
+    return $menuRol->insertar();
+  }
+
+  public function listarRoles()
+  {
+    $menuRol = new MenuRol();
+    return $menuRol->listar("idmenu = " . $this->idmenu);
+  }
 }
