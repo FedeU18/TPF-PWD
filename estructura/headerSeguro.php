@@ -31,10 +31,10 @@ if ($resp) {
 
 <body class="d-flex flex-column min-vh-100">
   <header class="d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 border-bottom">
-    <div class="col-md-3 mb-2 mb-md-0">
+    <div class="col-3 mb-2 mb-md-0">
       <a class="mx-3 w-25 h-25" href="../productos/productos.php"><img class="w-25 h-25" src="../../estructura/assets/pancho.jpg" alt="el perrito de Ema"></a>
     </div>
-    <div class="col-5 d-flex flex-row text-end">
+    <div class="col-6 d-flex flex-row text-end">
       <?php
       foreach ($submenus as $submenu) {
         echo "<a href='{$submenu->getmedescripcion()}' class='mx-1 btn btn-outline-primary me-2'>{$submenu->getmenombre()}</a>";

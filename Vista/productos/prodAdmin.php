@@ -10,11 +10,11 @@ $productos = $objProductos->buscar(null);
 
 
 <div class="table-responsive">
-<a href="formAgregarProd.php" class="btn btn-primary">Agregar productos</a><br><br>
+  <a href="formAgregarProd.php" class="btn btn-primary">Agregar productos</a><br><br>
 
-<div id="toast" class="toast"></div>
+  <div id="toast" class="toast"></div>
 
-<br><br>
+  <br><br>
   <table class="table table-striped table-bordered">
     <thead class="table-dark">
       <tr>
@@ -36,11 +36,11 @@ $productos = $objProductos->buscar(null);
             <td>$<?php echo htmlspecialchars($producto->getprecio()); ?></td>
             <td><?php echo htmlspecialchars($producto->getprocantstock()); ?></td>
             <td>
-                <button class="btn btn-warning btn-sm editar-producto" id="btn-editarProd" data-id="<?php echo $producto->getidproducto(); ?>">Editar</button>
-                <button class="btn btn-danger btn-sm eliminar-producto" id="btn-eliminarProd" data-id="<?php echo $producto->getidproducto(); ?>">Eliminar</button>
-                
+              <button class="btn btn-warning btn-sm editar-producto" id="btn-editarProd" data-id="<?php echo $producto->getidproducto(); ?>">Editar</button>
+              <button class="btn btn-danger btn-sm eliminar-producto" id="btn-eliminarProd" data-id="<?php echo $producto->getidproducto(); ?>">Eliminar</button>
 
-              </td>
+
+            </td>
 
           </tr>
         <?php } ?>
@@ -52,146 +52,122 @@ $productos = $objProductos->buscar(null);
     </tbody>
   </table>
 </div>
-<style>
-  
-  .toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #333;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 1000;
-  }
-
-  .toast.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .toast.success {
-    background-color: #28a745; /* Verde */
-  }
-
-  .toast.error {
-    background-color: #dc3545; /* Rojo */
-  }
-
-</style>
 
 
 
 
 <script>
   function showToast(message, type = "success") {
-  const toast = document.getElementById("toast");
-  
-  // Aplicar clase según el tipo de mensaje
-  toast.className = `toast ${type} show`;
-  toast.textContent = message;
-  
-  // Ocultar el mensaje después de 3 segundos
-  setTimeout(() => {
-    toast.className = "toast";
-  }, 3000);
-}
+    const toast = document.getElementById("toast");
 
-$(document).ready(function () {
+    // Aplicar clase según el tipo de mensaje
+    toast.className = `toast ${type} show`;
+    toast.textContent = message;
+
+    // Ocultar el mensaje después de 3 segundos
+    setTimeout(() => {
+      toast.className = "toast";
+    }, 3000);
+  }
+
+  $(document).ready(function() {
     // Función para mostrar mensajes tipo "toast"
     function showToast(message, type = "success") {
-        const toast = document.getElementById("toast");
-        toast.className = `toast ${type} show`;
-        toast.textContent = message;
-        setTimeout(() => {
-            toast.className = "toast";
-        }, 3000);
+      const toast = document.getElementById("toast");
+      toast.className = `toast ${type} show`;
+      toast.textContent = message;
+      setTimeout(() => {
+        toast.className = "toast";
+      }, 3000);
     }
 
     // Acción para editar producto
-    $(".editar-producto").click(function () {
-        let btn = $(this);
-        let row = btn.closest("tr");
-        let idProducto = btn.data("id");
+    $(".editar-producto").click(function() {
+      let btn = $(this);
+      let row = btn.closest("tr");
+      let idProducto = btn.data("id");
 
-        // Reemplazar celdas con campos de entrada
-        row.find("td:eq(1)").html(`<input type="text" class="form-control" value="${row.find("td:eq(1)").text().trim()}">`);
-        row.find("td:eq(2)").html(`<input type="text" class="form-control" value="${row.find("td:eq(2)").text().trim()}">`);
-        row.find("td:eq(3)").html(`<input type="number" class="form-control" value="${row.find("td:eq(3)").text().replace('$', '').trim()}">`);
-        row.find("td:eq(4)").html(`<input type="number" class="form-control" value="${row.find("td:eq(4)").text().trim()}">`);
+      // Reemplazar celdas con campos de entrada
+      row.find("td:eq(1)").html(`<input type="text" class="form-control" value="${row.find("td:eq(1)").text().trim()}">`);
+      row.find("td:eq(2)").html(`<input type="text" class="form-control" value="${row.find("td:eq(2)").text().trim()}">`);
+      row.find("td:eq(3)").html(`<input type="number" class="form-control" value="${row.find("td:eq(3)").text().replace('$', '').trim()}">`);
+      row.find("td:eq(4)").html(`<input type="number" class="form-control" value="${row.find("td:eq(4)").text().trim()}">`);
 
-        // Cambiar botón "Editar" a "Guardar"
-        btn.removeClass("btn-warning").addClass("btn-success").text("Guardar").off("click").click(function () {
-            let nuevoNombre = row.find("td:eq(1) input").val().trim();
-            let nuevoDetalle = row.find("td:eq(2) input").val().trim();
-            let nuevoPrecio = row.find("td:eq(3) input").val().trim();
-            let nuevoStock = row.find("td:eq(4) input").val().trim();
+      // Cambiar botón "Editar" a "Guardar"
+      btn.removeClass("btn-warning").addClass("btn-success").text("Guardar").off("click").click(function() {
+        let nuevoNombre = row.find("td:eq(1) input").val().trim();
+        let nuevoDetalle = row.find("td:eq(2) input").val().trim();
+        let nuevoPrecio = row.find("td:eq(3) input").val().trim();
+        let nuevoStock = row.find("td:eq(4) input").val().trim();
 
-            // Validar campos
-            if (!nuevoNombre || !nuevoDetalle || isNaN(nuevoPrecio) || isNaN(nuevoStock)) {
-                showToast("Por favor, completa todos los campos correctamente.", "error");
-                return;
+        // Validar campos
+        if (!nuevoNombre || !nuevoDetalle || isNaN(nuevoPrecio) || isNaN(nuevoStock)) {
+          showToast("Por favor, completa todos los campos correctamente.", "error");
+          return;
+        }
+
+        // Enviar datos con AJAX
+        $.ajax({
+          type: "POST",
+          url: "actionEditarProducto.php",
+          data: {
+            id: idProducto,
+            pronombre: nuevoNombre,
+            prodetalle: nuevoDetalle,
+            precio: nuevoPrecio,
+            procantstock: nuevoStock
+          },
+          dataType: "json",
+          success: function(respuesta) {
+            if (respuesta.success) {
+              row.find("td:eq(1)").text(nuevoNombre);
+              row.find("td:eq(2)").text(nuevoDetalle);
+              row.find("td:eq(3)").text(`$${parseFloat(nuevoPrecio).toFixed(2)}`);
+              row.find("td:eq(4)").text(nuevoStock);
+
+              // Restaurar botón
+              btn.removeClass("btn-success").addClass("btn-warning").text("Editar");
+              showToast(respuesta.message, "success");
+            } else {
+              showToast(respuesta.message, "error");
             }
-
-            // Enviar datos con AJAX
-            $.ajax({
-                type: "POST",
-                url: "actionEditarProducto.php",
-                data: { id: idProducto, pronombre: nuevoNombre, prodetalle: nuevoDetalle, precio: nuevoPrecio, procantstock: nuevoStock },
-                dataType: "json",
-                success: function (respuesta) {
-                    if (respuesta.success) {
-                        row.find("td:eq(1)").text(nuevoNombre);
-                        row.find("td:eq(2)").text(nuevoDetalle);
-                        row.find("td:eq(3)").text(`$${parseFloat(nuevoPrecio).toFixed(2)}`);
-                        row.find("td:eq(4)").text(nuevoStock);
-
-                        // Restaurar botón
-                        btn.removeClass("btn-success").addClass("btn-warning").text("Editar");
-                        showToast(respuesta.message, "success");
-                    } else {
-                        showToast(respuesta.message, "error");
-                    }
-                },
-                error: function (e1) {
-                    showToast("Error al conectar con el servidor.", "error");
-                    console.log(e1)
-                },
-            });
+          },
+          error: function(e1) {
+            showToast("Error al conectar con el servidor.", "error");
+            console.log(e1)
+          },
         });
+      });
     });
 
     // Acción para eliminar producto
-    $(".eliminar-producto").click(function () {
-        let idProducto = $(this).data("id");
+    $(".eliminar-producto").click(function() {
+      let idProducto = $(this).data("id");
 
-        if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
-            $.ajax({
-                type: "POST",
-                url: "eliminarProducto.php",
-                data: { id: idProducto },
-                dataType: "json",
-                success: function (respuesta) {
-                    if (respuesta.success) {
-                        $(`#fila-${idProducto}`).remove();
-                        showToast(respuesta.message, "success");
-                    } else {
-                        showToast(respuesta.message, "error");
-                    }
-                },
-                error: function (e2) {
-                    showToast("Error al conectar con el servidor.", "error");
-                    console.log(e2)
-                },
-            });
-        }
+      if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
+        $.ajax({
+          type: "POST",
+          url: "eliminarProducto.php",
+          data: {
+            id: idProducto
+          },
+          dataType: "json",
+          success: function(respuesta) {
+            if (respuesta.success) {
+              $(`#fila-${idProducto}`).remove();
+              showToast(respuesta.message, "success");
+            } else {
+              showToast(respuesta.message, "error");
+            }
+          },
+          error: function(e2) {
+            showToast("Error al conectar con el servidor.", "error");
+            console.log(e2)
+          },
+        });
+      }
     });
-});
-
+  });
 </script>
 
 

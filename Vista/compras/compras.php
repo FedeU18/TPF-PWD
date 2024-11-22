@@ -5,7 +5,7 @@ include_once "../../estructura/headerSeguro.php";
 
 if ($rol != 3) {
   $mensaje = "Acceso denegado. Solo los Depositores pueden acceder.";
-  echo "<script>location.href = '../perfil/index.php?msg=" . urlencode($mensaje) . "';</script>";
+  echo "<script>location.href = '../login/login.php?msg=" . urlencode($mensaje) . "';</script>";
   exit; // detener ejecución
 }
 
