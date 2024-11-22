@@ -15,7 +15,7 @@
 <body class="d-flex flex-column min-vh-100"> <!-- Añadir min-vh-100 al body -->
   <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
     <div class="col-md-3 mb-2 mb-md-0">
-      <a href="../inicio/inicio.php">ACÁ IRÍA EL LOGO</a>
+      <a class="mx-3 w-25 h-25" href="../productos/productos.php"><img class="w-25 h-25" src="../../estructura/assets/pancho.jpg" alt="el perrito de Ema"></a>
     </div>
     <div class="col-md-3 text-end">
       <a href="../login/login.php" type="button" class="btn btn-outline-primary me-2">Inicar Sesión</a>
