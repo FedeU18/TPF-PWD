@@ -28,56 +28,56 @@ VALUES
     13,
     'Compras',
     '../compras/compras.php',
-    1,
+    3,
     '0000-00-00 00:00:00'
   ),
   (
     14,
     'Ver usuarios',
     '../usersAdmin/listaUsers.php',
-    3,
+    2,
     '0000-00-00 00:00:00'
   ),
   (
     15,
     'Ver Carrito',
     '../Carrito/carrito.php',
-    2,
+    1,
     '0000-00-00 00:00:00'
   ),
   (
     16,
     'Menús',
     '../menu/menu.php',
-    1,
+    2,
     '0000-00-00 00:00:00'
   ),
   (
     17,
     'Mi perfil',
     '../perfil/index.php',
-    2,
+    1,
     '0000-00-00 00:00:00'
   ),
   (
     18,
     'Mi perfil',
     '../perfil/index.php',
-    1,
+    2,
     '0000-00-00 00:00:00'
   ),
   (
     19,
     'Mi perfil',
     '../perfil/index.php',
-    2,
+    3,
     '0000-00-00 00:00:00'
   ),
   (
     20,
     'productos',
     '../productos/productos.php',
-    3,
+    2,
     '0000-00-00 00:00:00'
   ),
   (
