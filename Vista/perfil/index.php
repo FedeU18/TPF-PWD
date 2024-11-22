@@ -16,24 +16,26 @@ $usuario = $objUsuario->buscar(['idusuario' => $idUsuario]);
 $usuario = $usuario[0]; // Suponemos un único resultado
 
 // Buscar las compras realizadas por el usuario
-$compras = $objCompras->buscar(['idusuario' => $idUsuario]);
+$comprasTotales = $objCompras->buscar(['idusuario' => $idUsuario]);
 
 // Crear listas para almacenar las compras y sus estados
 $listaCompras = [];
 $listaEstados = [];
 
 // Procesar compras y obtener estados asociados
-foreach ($compras as $compra) {
+foreach ($comprasTotales as $comprasUsuario) {
     // Agregar compra a la lista
-    $listaCompras[] = $compra;
+    $listaCompras[] = $comprasUsuario;
 
     // Buscar estados de la compra actual
-    $estadosCompra = $objEstadoCompras->buscar(['idcompra' => $compra->getIdCompra()]);
+    $estadosCompra = $objEstadoCompras->buscar(['idcompra' => $comprasUsuario->getIdCompra()]);
     foreach ($estadosCompra as $estado) {
-        $listaEstados[$compra->getIdCompra()] = $estado->getIdCompraEstadoTipo();
+        $listaEstados[$comprasUsuario->getIdCompra()] = $estado->getIdCompraEstadoTipo();
     }
 }
-
+// var_dump($listaEstados);
+// // var_dump ($listaCompras);
+// exit;
 ?>
 
 
@@ -89,48 +91,50 @@ foreach ($compras as $compra) {
           </tr>
         </thead>
         <tbody>
-          <?php if (!empty($listaCompras)): ?>
-            <?php foreach ($listaCompras as $compra): ?>
-              <tr>
-                <td><?= htmlspecialchars($compra->getIdCompra()); ?></td>
-                <td><?= htmlspecialchars($compra->getCoFecha()); ?></td>
-                <td>
-                  <?php 
-                  $estado = $listaEstados[$compra->getIdCompra()] ?? 'Desconocido';
-                  switch ($estado) {
-                      case 1:
-                          echo 'Iniciada';
-                          break;
-                      case 2:
-                          echo 'Aceptada';
-                          break;
-                      case 3:
-                          echo 'Enviada';
-                          break;
-                      case 4:
-                          echo 'Cancelada';
-                          break;
-                      default:
-                          echo 'Desconocido';
-                  }
-                  ?>
-                </td>
-                <td>
-                <form action="mostrarDetalles.php" method="post" class="mt-4">
-                  <input type="hidden" name="idcompra" value="<?= $compra->getIdCompra(); ?>">
-                  <button type="submit" class="btn btn-primary">Detalles</button>
-                  
-                </form>
-
-                </td>
-              </tr>
-            <?php endforeach; ?>
-          <?php else: ?>
-            <tr>
-              <td colspan="4" class="text-center">No se encontraron compras.</td>
-            </tr>
-          <?php endif; ?>
-        </tbody>
+  <?php if (!empty($listaCompras)): ?>
+    <?php foreach ($listaCompras as $compra): ?>
+      <tr>
+        <td><?= htmlspecialchars($compra->getIdCompra()); ?></td>
+        <td><?= htmlspecialchars($compra->getCoFecha()); ?></td>
+        <td>
+          <?php 
+          // Obtener el estado de la compra usando el idcompra
+          $estadoId = $listaEstados[$compra->getIdCompra()] ?? null; // Si no existe, será null
+          
+          // Mostrar el estado correspondiente
+          switch ($estadoId) {
+            case 1:
+              echo 'Iniciada';
+              break;
+            case 2:
+              echo 'Aceptada';
+              break;
+            case 3:
+              echo 'Enviada';
+              break;
+            case 4:
+              echo 'Cancelada';
+              break;
+            default:
+              echo 'Desconocido';
+              break;
+          }
+          ?>
+        </td>
+        <td>
+          <form action="mostrarDetalles.php" method="post" class="mt-4">
+            <input type="hidden" name="idcompra" value="<?= $compra->getIdCompra(); ?>">
+            <button type="submit" class="btn btn-primary">Detalles</button>
+          </form>
+        </td>
+      </tr>
+    <?php endforeach; ?>
+  <?php else: ?>
+    <tr>
+      <td colspan="4" class="text-center">No se encontraron compras.</td>
+    </tr>
+  <?php endif; ?>
+</tbody>
       </table>
     </div>
   </div>
