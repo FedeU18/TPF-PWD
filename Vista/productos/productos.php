@@ -4,9 +4,9 @@ $titulo = "productos";
 include_once "../../estructura/headerSeguro.php";
 $userRol = $session->getRol();
 echo "<h1>Productos</h1>";
-if (in_array(3, $rol) || in_array(2, $rol)) {
+if ($rol == 3 || $rol == 2) {
   include_once "prodAdmin.php";
-} elseif (in_array(1, $rol)) {
+} elseif ($rol == 1) {
   include_once "prodCliente.php";
 }
 
