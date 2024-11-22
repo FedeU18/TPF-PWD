@@ -102,8 +102,3 @@ VALUES
     'Tablet con pantalla Retina de 10.2 pulgadas y 64GB de almacenamiento.',
     18
   );
-
-  /* Modificaicon a la tabla producto para habilitar o deshabilitar , 1 es habilitado */
-
-  ALTER TABLE `producto`
-ADD COLUMN `prohabilitado` TINYINT(1) NOT NULL DEFAULT 1;
