@@ -37,10 +37,13 @@ $productos = $objProductos->buscar(null);
             <td><?php echo htmlspecialchars($producto->getprocantstock()); ?></td>
             <td>
                 <button class="btn btn-warning btn-sm editar-producto" id="btn-editarProd" data-id="<?php echo $producto->getidproducto(); ?>">Editar</button>
-                <button class="btn btn-danger btn-sm eliminar-producto" id="btn-eliminarProd" data-id="<?php echo $producto->getidproducto(); ?>">Eliminar</button>
-                
+                <button 
+                    class="btn <?php echo ($producto->getprocantstock() == -1) ? 'btn-primary habilitar-producto' : 'btn-danger eliminar-producto'; ?> btn-sm" 
+                    data-id="<?php echo $producto->getidproducto(); ?>">
+                    <?php echo ($producto->getprocantstock() == -1) ? 'Habilitar' : 'Eliminar'; ?>
+                </button>
+            </td>
 
-              </td>
 
           </tr>
         <?php } ?>
@@ -166,30 +169,36 @@ $(document).ready(function () {
     });
 
     // Acción para eliminar producto
-    $(".eliminar-producto").click(function () {
-        let idProducto = $(this).data("id");
+    $(".eliminar-producto, .habilitar-producto").click(function () {
+    let idProducto = $(this).data("id");
+    let accion = $(this).hasClass("habilitar-producto") ? "habilitar" : "eliminar";
 
-        if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
-            $.ajax({
-                type: "POST",
-                url: "eliminarProducto.php",
-                data: { id: idProducto },
-                dataType: "json",
-                success: function (respuesta) {
-                    if (respuesta.success) {
-                        $(`#fila-${idProducto}`).remove();
-                        showToast(respuesta.message, "success");
-                    } else {
-                        showToast(respuesta.message, "error");
-                    }
-                },
-                error: function (e2) {
-                    showToast("Error al conectar con el servidor.", "error");
-                    console.log(e2)
-                },
-            });
-        }
+    $.ajax({
+        type: "POST",
+        url: "eliminarProducto.php",
+        data: { id: idProducto },
+        dataType: "json",
+        success: function (respuesta) {
+            if (respuesta.success) {
+                if (accion === "eliminar") {
+                    showToast("Producto eliminado correctamente (stock cambiado a -1).", "success");
+                    // Recargar para actualizar el botón
+                    location.reload();
+                } else {
+                    showToast(respuesta.message, "success");
+                    // Recargar para actualizar el botón a "Eliminar"
+                    location.reload();
+                }
+            } else {
+                showToast(respuesta.message, "error");
+            }
+        },
+        error: function () {
+            showToast("Error al conectar con el servidor.", "error");
+        },
     });
+});
+
 });
 
 </script>
@@ -197,3 +206,5 @@ $(document).ready(function () {
 
 
 <?php include_once "../../estructura/footer.php"; ?>
+
+

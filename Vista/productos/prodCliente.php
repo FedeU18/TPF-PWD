@@ -6,7 +6,11 @@ if (basename($_SERVER['PHP_SELF']) === 'prodCliente.php') {
 
 $objProductos = new ABMProducto();
 $productos = $objProductos->buscar(null);
-// Verificar si se accede directamente
+
+// Filtrar productos con stock válido
+$productosDisponibles = array_filter($productos, function($producto) {
+  return $producto->getprocantstock() != -1; // Excluir productos con stock -1
+});
 ?>
 
 <div id="mensajeError" class="mb-3"></div>
@@ -17,7 +21,7 @@ $productos = $objProductos->buscar(null);
   <a href="../Carrito/carrito.php">Ver Carrito</a>
 </div>
 <div class="row">
-  <?php foreach ($productos as $producto) { ?>
+  <?php foreach ($productosDisponibles as $producto) { ?>
     <div class="col-md-4 mb-4">
       <div class="card">
         <div class="card-body">
