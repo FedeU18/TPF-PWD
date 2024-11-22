@@ -49,7 +49,7 @@ foreach ($menusPadres as $menuPadre) {
                     <th scope="col">ID</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Descripción</th>
-                    <th scope="col">Estado</th>
+                    <th scope="col">Acción</th> <!-- Nueva columna de acción -->
                   </tr>
                 </thead>
                 <tbody>
@@ -58,7 +58,9 @@ foreach ($menusPadres as $menuPadre) {
                       <td><?= htmlspecialchars($submenu->getIdMenu()) ?></td>
                       <td><?= htmlspecialchars($submenu->getMenombre()) ?></td>
                       <td><?= htmlspecialchars($submenu->getMedescripcion()) ?></td>
-                      <td><?= htmlspecialchars($submenu->getMedeshabilitado() ? 'Deshabilitado' : 'Habilitado') ?></td>
+                      <td>
+                        <button class="btn btn-danger btn-sm eliminarSubmenu" data-id="<?= $submenu->getIdMenu() ?>">Eliminar</button>
+                      </td> <!-- Botón para eliminar el submenú -->
                     </tr>
                   <?php endforeach; ?>
                 </tbody>
@@ -67,11 +69,43 @@ foreach ($menusPadres as $menuPadre) {
               <p class="text-muted">Sin submenús</p>
             <?php endif; ?>
           </div>
+
         </div>
       </div>
     <?php endforeach; ?>
   </div>
-</div>
+  <div id="respuesta" class="mt-3"></div>
 
+</div>
+<script>
+  $(document).ready(function() {
+    // Manejar el clic en el botón de eliminar submenú
+    $('.eliminarSubmenu').on('click', function() {
+      var submenuId = $(this).data('id'); // Obtiene el ID del submenú desde el atributo data-id
+
+      if (confirm('¿Estás seguro de que deseas eliminar este submenú?')) {
+        $.ajax({
+          url: 'eliminarSubmenu.php', // Archivo que procesará la eliminación
+          type: 'POST',
+          data: {
+            id: submenuId
+          }, // Envía el ID del submenú
+          dataType: 'json', // Espera una respuesta JSON
+          success: function(response) {
+            if (response.exito) {
+              alert(response.mensaje); // Muestra mensaje de éxito
+              location.reload(); // Recarga la página para reflejar los cambios
+            } else {
+              alert(response.mensaje); // Muestra mensaje de error
+            }
+          },
+          error: function() {
+            alert('Ocurrió un error inesperado al intentar eliminar el submenú.');
+          }
+        });
+      }
+    });
+  });
+</script>
 
 <?php include_once "../../estructura/footer.php"; ?>
