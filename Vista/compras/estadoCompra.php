@@ -85,21 +85,20 @@ $listadoEstados = $objAbmCompraEstado->buscar($param);
   <a href="compras.php" class="btn btn-secondary mt-3">Volver al Listado de Compras</a>
 </div>
 <script>
-  $(document).ready(function() {
-
-    // Aceptar compra
+$(document).ready(function() {
+    //aceptar compra
     $('#aceptarCompra').click(function() {
       var idCompra = $(this).data('compra');
       cambiarEstadoCompra(idCompra, 'aceptar');
     });
 
-    // Enviar compra
+    //enviar compra
     $('#enviarCompra').click(function() {
       var idCompra = $(this).data('compra');
       cambiarEstadoCompra(idCompra, 'enviar');
     });
 
-    // Cancelar compra
+    //cancelar compra
     $('#cancelarCompra').click(function() {
       var idCompra = $(this).data('compra');
       cambiarEstadoCompra(idCompra, 'cancelar');
@@ -113,28 +112,28 @@ $listadoEstados = $objAbmCompraEstado->buscar($param);
           idcompra: idCompra,
           accion: accion
         },
-        dataType: 'json', // Asegúrate de que el servidor responda JSON puro
+        dataType: 'json', 
         success: function(response) {
           if (response.success) {
             $("#mensaje").html(
               `<div class="alert alert-info">${response.msg}</div>`
             );
-            location.reload(); // Recargar la página para ver el cambio
+            location.reload();
           } else {
             $("#mensaje").html(
-              `<div class="alert alert-danger">Error: ${response.msg}</div>`
+              `<div class="alert alert-danger">${response.msg}</div>`
             );
           }
         },
         error: function(xhr, status, error) {
-          alert('Error en la comunicación con el servidor: ' + error);
-          console.log(xhr.responseText); // Para depuración
+          $("#mensaje").html(
+            `<div class="alert alert-danger">Error en la comunicación con el servidor: ${error}</div>`
+          );
         }
       });
     }
 
-
-  });
+});
 </script>
 
 <?php
