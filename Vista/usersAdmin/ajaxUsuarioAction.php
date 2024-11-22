@@ -9,12 +9,14 @@ if (isset($datos['accion'], $datos['idusuario'])) {
     $usuarios = $objAbmUsuario->arrayUser();
     
     $usuarioEncontrado = null;
+    $i = 0;
+    $totalUsuarios = count($usuarios);
 
-    foreach ($usuarios as $usuario) {
-        if ($usuario['idusuario'] == $datos['idusuario']) {
-            $usuarioEncontrado = $usuario;
-            break;
+    while ($i < $totalUsuarios && !$usuarioEncontrado) {
+        if ($usuarios[$i]['idusuario'] == $datos['idusuario']) {
+            $usuarioEncontrado = $usuarios[$i];
         }
+        $i++;
     }
 
     if ($usuarioEncontrado) {
