@@ -8,7 +8,7 @@
 
 
 <div class="container mt-5">
-    <h1 class="text-center">Perfil de Usuario</h1>
+    <h1 class="text-center">Cargar Nuevo Producto</h1>
 
     <div class="d-flex justify-content-center mt-4">
         <form id="formProducto" class="w-50">
@@ -30,6 +30,8 @@
         </div>
         <button type="submit" id="btn-cargar" value="Cargar" class="btn btn-primary">Cargar Producto</button>
         <div id="mensaje" style="margin-top: 20px;"></div>
+            <hr class="mt-4">
+             <a href="prodCliente.php" class="btn btn-danger">Volver al perfil</a>
         </form>
 
     </div>

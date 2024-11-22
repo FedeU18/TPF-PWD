@@ -2,40 +2,40 @@
 
 include_once "../../config.php";
 include_once "../../estructura/headerSeguro.php";
-// $idUsuario = $session->getUsuario();
-$objUsuario = new ABMProducto();
-$usuario = $objUsuario->buscar(['idusuario' => $idUsuario]);
+$idUsuario = $session->getUsuario();
+$objProducto = new ABMProducto();
 
-
-
-$usuario = $usuario[0];
 ?>
 
 
 
 
   <div class="container mt-5">
-    <h1 class="text-center">Modificar Contraseña</h1>
+    <h1 class="text-center">Modificar Producto</h1>
 
     <!-- Mostrar mensaje de éxito o error si existe -->
     
 
     <!-- Formulario para editar perfil -->
-    <form action="cambiar_contrasena_action.php" class="mt-4">
+    <form action="actionEditarProducto.php" class="mt-4">
   <div class="mb-3">
-    <label for="uspass_actual" class="form-label">Contraseña Actual</label>
-    <input type="password" class="form-control" id="uspass_actual" name="uspass_actual" required>
+    <label for="prodNombre" class="form-label">Nombre Producto</label>
+    <input type="text" class="form-control" id="prodNombre" name="prodNombre" required>
   </div>
   <div class="mb-3">
-    <label for="uspass_nueva" class="form-label">Nueva Contraseña</label>
-    <input type="password" class="form-control" id="uspass_nueva" name="uspass_nueva" required>
+    <label for="prodDetalle" class="form-label">Detalle Producto</label>
+    <textarea type="text" class="form-control" id="prodDetalle" name="prodDetalle" required></textarea>
   </div>
   <div class="mb-3">
-    <label for="uspass_confirmar" class="form-label">Confirmar Nueva Contraseña</label>
-    <input type="password" class="form-control" id="uspass_confirmar" name="uspass_confirmar" required>
+    <label for="prodPrecio" class="form-label">Precio</label>
+    <input type="text" class="form-control" id="prodPrecio" name="prodPrecio" required>
+  </div>
+  <div class="mb-3">
+    <label for="prodStock" class="form-label">Editar Stock</label>
+    <input type="text" class="form-control" id="prodStock" name="prodStock" required>
   </div>
   <div id="mensaje" class="mb-3"></div>
-  <button type="submit" id="btn-contraseña" class="btn btn-primary">Cambiar Contraseña</button>
+  <button type="submit" id="btn-editarProd" class="btn btn-primary">Guardar Cambios</button>
 </form>
 
 <hr class="mt-4">
@@ -44,7 +44,7 @@ $usuario = $usuario[0];
 
 <script>
   $(document).ready(function() {
-    $("#btn-contraseña").click(function(e) {
+    $("#btn-editarProd").click(function(e) {
       e.preventDefault();
       // Limpiar mensajes previos
       $("#mensaje").empty();
