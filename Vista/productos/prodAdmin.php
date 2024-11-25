@@ -114,11 +114,12 @@ $productos = $objProductos->buscar(null);
           type: "POST",
           url: "actionEditarProducto.php",
           data: {
-            id: idProducto,
+            idProducto: idProducto,
             pronombre: nuevoNombre,
             prodetalle: nuevoDetalle,
             precio: nuevoPrecio,
-            procantstock: nuevoStock
+            procantstock: nuevoStock,
+            accion: "editar" 
           },
           dataType: "json",
           success: function(respuesta) {
