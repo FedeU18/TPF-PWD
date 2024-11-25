@@ -58,16 +58,44 @@ class ABMUsuario
     return isset($param['idusuario']);
   }
 
-  public function alta($param)
-  {
-    $resp = false;
-    $param['idusuario'] = null; // El id se genera automáticamente
-    $elObjUsuario = $this->cargarObjeto($param);
-    if ($elObjUsuario != null && $elObjUsuario->insertar()) {
-      $resp = true;
+  public function alta($param) {
+    $resp = ['success' => false, 'errores' => []];
+
+    // Validar datos antes de crear el usuario
+    $errores = $this->validarDatosUsuario($param);
+
+    if (!empty($errores)) {
+        $resp['errores'] = $errores;
+    } else {
+        // $param['idusuario'] = null;
+            // Construir el array con el formato requerido
+        $nuevoUsuario = [
+          "idusuario" => null,
+          "usnombre" => $param['usnombre'],
+          "uspass" => password_hash($param['pass'], PASSWORD_BCRYPT), // Encriptar la contraseña
+          "usmail" => $param['email'],
+          "usdeshabilitado" => null,
+      ];
+
+        $elObjUsuario = $this->cargarObjeto($nuevoUsuario);
+      
+        if ($elObjUsuario != null && $elObjUsuario->insertar()) {
+            $resp['success'] = true;
+            $resp['errores'] = []; // Limpio los errores, ya que fue exitoso
+        } else {
+            $resp['errores'][] = "Error al intentar insertar el usuario en la base de datos.";
+        }
     }
+
+    // Si no hay errores, asegúrate de tener un mensaje claro
+    if (!$resp['success'] && empty($resp['errores'])) {
+        $resp['errores'][] = "Ocurrió un error desconocido.";
+    }
+
     return $resp;
-  }
+}
+
+
 
   public function baja($param)
   {
@@ -167,4 +195,52 @@ class ABMUsuario
     $arreglo = $obj->listar($where);
     return $arreglo;
   }
+
+  public function esNombreDeUsuarioDuplicado($usnombre) {
+    $usuarios = $this->buscar(null);
+    foreach ($usuarios as $usuario) {
+        if ($usuario->getusnombre() === $usnombre) {
+            return true; // El nombre de usuario ya existe
+        }
+    }
+    return false;
 }
+
+public function esCorreoDuplicado($email) {
+    $usuarios = $this->buscar(null);
+    foreach ($usuarios as $usuario) {
+        if ($usuario->getusmail() === $email) {
+            return true; // El correo ya existe
+        }
+    }
+    return false;
+}
+
+public function validarDatosUsuario($datos) {
+    $errores = [];
+
+    // Validar nombre de usuario duplicado
+    if ($this->esNombreDeUsuarioDuplicado($datos['usnombre'])) {
+        $errores[] = "El usuario ya existe.";
+    }
+
+    // Validar correo duplicado
+    if ($this->esCorreoDuplicado($datos['email'])) {
+        $errores[] = "El correo ya existe.";
+    }
+
+    // Validar formato del correo
+    if (!filter_var($datos['email'], FILTER_VALIDATE_EMAIL)) {
+        $errores[] = "El correo no es válido.";
+    }
+
+    // Validar longitud del nombre de usuario
+    if (strlen($datos['usnombre']) >= 8) {
+        $errores[] = "El nombre de usuario debe tener menos de 8 caracteres.";
+    }
+
+    return $errores;
+}
+
+}
+
