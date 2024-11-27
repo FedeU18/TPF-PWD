@@ -1,13 +1,14 @@
 <?php
 class ABMProducto
 {
-  public function abm($datos) {
+  public function abm($datos)
+  {
     $respuesta = ['success' => false, 'message' => ''];
 
     // Validar que la acción esté definida
     if (!isset($datos['accion'])) {
-        $respuesta['message'] = "No se especificó la acción a realizar.";
-        return $respuesta;
+      $respuesta['message'] = "No se especificó la acción a realizar.";
+      return $respuesta;
     }
 
     // Validar campos obligatorios según la acción
@@ -15,77 +16,127 @@ class ABMProducto
     // var_dump ($datos);
     // exit;
     if ($validacion !== true) {
-        $respuesta['message'] = $validacion;
-        return $respuesta;
+      $respuesta['message'] = $validacion;
+      return $respuesta;
     }
 
     // Ejecutar la acción correspondiente
     switch ($datos['accion']) {
-        case 'nuevo':
-            if ($this->alta($datos)) {
-                $respuesta['success'] = true;
-                $respuesta['message'] = "Producto creado correctamente.";
-            } else {
-                $respuesta['message'] = "Error al crear el producto.";
-            }
-            break;
+      case 'nuevo':
+        if ($this->alta($datos)) {
+          $respuesta['success'] = true;
+          $respuesta['message'] = "Producto creado correctamente.";
+        } else {
+          $respuesta['message'] = "Error al crear el producto.";
+        }
+        break;
 
-        case 'editar':
-            if ($this->modificacion($datos)) {
-                $respuesta['success'] = true;
-                $respuesta['message'] = "Producto actualizado correctamente.";
-            } else {
-                $respuesta['message'] = "Error al actualizar el producto.";
-            }
-            break;
+      case 'editar':
+        if ($this->modificacion($datos)) {
+          $respuesta['success'] = true;
+          $respuesta['message'] = "Producto actualizado correctamente.";
+        } else {
+          $respuesta['message'] = "Error al actualizar el producto.";
+        }
+        break;
 
-        case 'borrar':
-            if ($this->baja($datos)) {
-                $respuesta['success'] = true;
-                $respuesta['message'] = "Producto eliminado correctamente.";
-            } else {
-                $respuesta['message'] = "Error al eliminar el producto.";
-            }
-            break;
+      case 'eliminar':
+        if (isset($datos['id'])) {
+          $idProducto = $datos['id'];
+          $productoX = $this->buscar($idProducto);
 
-        default:
-            $respuesta['message'] = "Acción no válida.";
-            break;
+          if ($productoX) { // Asegúrate de que se encontró el producto
+            // Actualiza la estructura con los datos necesarios para la base de datos
+            $productoX['idProducto'] = $idProducto;
+            $productoX['pronombre'] = $productoX['pronombre'] ?? null; // Verifica o asigna el nombre
+            $productoX['prodetalle'] = $productoX['prodetalle'] ?? null; // Verifica o asigna el detalle
+            $productoX['precio'] = $productoX['precio'] ?? 0; // Asigna precio si está ausente
+            $productoX['procantstock'] = -1; // Cambia el stock a -1 para deshabilitar
+
+            // Llama a la función de modificación con la estructura completa
+            if ($this->modificacion($productoX)) {
+              $respuesta['success'] = true;
+              $respuesta['message'] = "Producto deshabilitado correctamente.";
+            } else {
+              $respuesta['message'] = "Error al deshabilitar el producto.";
+            }
+          } else {
+            $respuesta['message'] = "Producto no encontrado.";
+          }
+        } else {
+          $respuesta['message'] = "ID del producto no proporcionado.";
+        }
+        break;
+
+      case 'habilitar':
+        if (isset($datos['id'])) {
+          $idProducto = $datos['id'];
+          $productoX = $this->buscar($idProducto);
+
+          if ($productoX) { // Asegúrate de que se encontró el producto
+            // Actualiza la estructura con los datos necesarios para la base de datos
+            $productoX['idProducto'] = $idProducto;
+            $productoX['pronombre'] = $productoX['pronombre'] ?? null; // Verifica o asigna el nombre
+            $productoX['prodetalle'] = $productoX['prodetalle'] ?? null; // Verifica o asigna el detalle
+            $productoX['precio'] = $productoX['precio'] ?? 0; // Asigna precio si está ausente
+            $productoX['procantstock'] = 1; // Cambia el stock a -1 para deshabilitar
+
+            // Llama a la función de modificación con la estructura completa
+            if ($this->modificacion($productoX)) {
+              $respuesta['success'] = true;
+              $respuesta['message'] = "Producto deshabilitado correctamente.";
+            } else {
+              $respuesta['message'] = "Error al deshabilitar el producto.";
+            }
+          } else {
+            $respuesta['message'] = "Producto no encontrado.";
+          }
+        } else {
+          $respuesta['message'] = "ID del producto no proporcionado.";
+        }
+        break;
+
+
+
+      default:
+        $respuesta['message'] = "Acción no válida.";
+        break;
     }
 
     return $respuesta;
-}
+  }
 
-private function validarCamposPorAccion($datos) {
-  $errores = [];
+  private function validarCamposPorAccion($datos)
+  {
+    $errores = [];
 
-  // Validar campos comunes
-  if (!isset($datos['accion']) || empty($datos['accion'])) {
+    // Validar campos comunes
+    if (!isset($datos['accion']) || empty($datos['accion'])) {
       $errores[] = "La acción es obligatoria.";
-  }
+    }
 
-  if ($datos['accion'] === 'editar' || $datos['accion'] === 'borrar') {
+    if ($datos['accion'] === 'editar' || $datos['accion'] === 'borrar') {
       if (!isset($datos['idProducto']) || empty($datos['idProducto'])) {
-          $errores[] = "El ID del producto es obligatorio.";
+        $errores[] = "El ID del producto es obligatorio.";
       }
-  }
+    }
 
-  if ($datos['accion'] === 'nuevo' || $datos['accion'] === 'editar') {
+    if ($datos['accion'] === 'nuevo' || $datos['accion'] === 'editar') {
       if (!isset($datos['pronombre']) || empty($datos['pronombre'])) {
-          $errores[] = "El nombre del producto es obligatorio.";
+        $errores[] = "El nombre del producto es obligatorio.";
       }
 
       if (!isset($datos['precio']) || !is_numeric($datos['precio'])) {
-          $errores[] = "El precio es obligatorio y debe ser numérico.";
+        $errores[] = "El precio es obligatorio y debe ser numérico.";
       }
 
       if (!isset($datos['procantstock']) || !is_numeric($datos['procantstock'])) {
-          $errores[] = "La cantidad de stock es obligatoria y debe ser numérica.";
+        $errores[] = "La cantidad de stock es obligatoria y debe ser numérica.";
       }
-  }
+    }
 
-  return empty($errores) ? true : implode(' ', $errores);
-}
+    return empty($errores) ? true : implode(' ', $errores);
+  }
 
 
 
