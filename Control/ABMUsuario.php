@@ -33,6 +33,111 @@ class ABMUsuario
     return $resp;
   }
 
+  public function actualizarContrasena($idUsuario, $datos) {
+    $resp = ['success' => false, 'message' => ''];
+
+    // Verificar que los campos estén completos
+    if (empty($datos['uspassactual']) || empty($datos['uspassnueva']) || empty($datos['uspassconfirmar'])) {
+        $resp['message'] = 'Por favor, complete todos los campos.';
+        return $resp;
+    }
+
+    // Verificar que las nuevas contraseñas coincidan
+    if ($datos['uspassnueva'] !== $datos['uspassconfirmar']) {
+        $resp['message'] = 'Las contraseñas no coinciden.';
+        return $resp;
+    }
+
+    // Buscar el usuario por ID
+    $usuario = $this->buscar(['idusuario' => $idUsuario]);
+    if (empty($usuario)) {
+        $resp['message'] = 'Usuario no encontrado.';
+        return $resp;
+    }
+
+    $usuario = $usuario[0]; // Obtener el objeto Usuario
+
+    // Verificar la contraseña actual
+    if (!password_verify($datos['uspassactual'], $usuario->getuspass())) {
+        $resp['message'] = 'La contraseña actual es incorrecta.';
+        return $resp;
+    }
+
+    // Encriptar la nueva contraseña
+    $nuevaContrasenaHash = password_hash($datos['uspassnueva'], PASSWORD_DEFAULT);
+
+    // Preparar los datos para la actualización
+    $modUsuario = [
+        'idusuario' => $idUsuario,
+        'usnombre' => $usuario->getusnombre(),
+        'uspass' => $nuevaContrasenaHash,
+        'usmail' => $usuario->getusmail(),
+        'usdeshabilitado' => $usuario->getusdeshabilitado(),
+    ];
+
+    // Intentar modificar la contraseña
+    if ($this->modificacion($modUsuario)) {
+        $resp['success'] = true;
+        $resp['message'] = 'Contraseña actualizada con éxito.';
+    } else {
+        $resp['message'] = 'Error al intentar actualizar la contraseña.';
+    }
+
+    return $resp;
+}
+
+
+  public function actualizarPerfil($idUsuario, $datos) {
+    $resp = ['success' => false, 'message' => ''];
+    
+    // Validar que el usuario exista
+    $usuarioActual = $this->buscar(['idusuario' => $idUsuario]);
+    if (empty($usuarioActual)) {
+        $resp['message'] = 'El usuario no existe.';
+        return $resp;
+    }
+    
+
+    
+    $usuarioActual = $usuarioActual[0]; // Obtén el objeto Usuario
+    
+    // Validar campos obligatorios
+    if (empty($datos['usnombre']) || empty($datos['usmail'])) {
+        $resp['message'] = 'Los campos Nombre de Usuario y Correo Electrónico son obligatorios.';
+        return $resp;
+    }
+
+    // Validar duplicados (correo)
+    if ($this->esCorreoDuplicado($datos['usmail'], $idUsuario)) {
+        $resp['message'] = 'El correo ya está registrado para otro usuario.';
+        return $resp;
+    }
+
+    // Normalizar correo
+    $correoNormalizado = trim(strtolower($datos['usmail']));
+
+    // Preparar datos para modificación
+    $modUsuario = [
+        'idusuario' => $idUsuario,
+        'usnombre' => trim($datos['usnombre']),
+        'uspass' => $usuarioActual->getuspass(), // Mantener la contraseña actual
+        'usmail' => $correoNormalizado,
+        'usdeshabilitado' => null,
+    ];
+
+    // Intentar modificar
+    if ($this->modificacion($modUsuario)) {
+        $resp['success'] = true;
+        $resp['message'] = 'Perfil actualizado con éxito.';
+    } else {
+        $resp['message'] = 'No se realizaron cambios en el perfil.';
+    }
+
+    return $resp;
+}
+
+
+
   private function cargarObjeto($param)
   {
     $obj = null;
@@ -196,25 +301,28 @@ class ABMUsuario
     return $arreglo;
   }
 
-  public function esNombreDeUsuarioDuplicado($usnombre) {
+  public function esCorreoDuplicado($email, $idExcluido = null) {
     $usuarios = $this->buscar(null);
+    $resp= false;
     foreach ($usuarios as $usuario) {
-        if ($usuario->getusnombre() === $usnombre) {
-            return true; // El nombre de usuario ya existe
+        if ($usuario->getusmail() === $email && $usuario->getidusuario() != $idExcluido) {
+          $resp= true; // El correo ya existe para otro usuario
         }
     }
-    return false;
+    return $resp;
 }
 
-public function esCorreoDuplicado($email) {
+public function esNombreDeUsuarioDuplicado($usnombre, $idExcluido = null) {
     $usuarios = $this->buscar(null);
+    $resp = false;
     foreach ($usuarios as $usuario) {
-        if ($usuario->getusmail() === $email) {
-            return true; // El correo ya existe
+        if ($usuario->getusnombre() === $usnombre && $usuario->getidusuario() != $idExcluido) {
+          $resp= true; // El nombre ya existe para otro usuario
         }
     }
-    return false;
+    return $resp;
 }
+
 
 public function validarDatosUsuario($datos) {
     $errores = [];
@@ -243,4 +351,3 @@ public function validarDatosUsuario($datos) {
 }
 
 }
-
