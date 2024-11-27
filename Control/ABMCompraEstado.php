@@ -120,6 +120,51 @@ class ABMCompraEstado
     return $resultadoMod && $resultadoAlta;
   }
 
+  public function cancelarCompra($idCompra)
+  {
+    $response = ["success" => false, "message" => "No se pudo cancelar la compra, comunicarse con Asistencia"];
+
+    // Buscar estados de compra
+    $compras = $this->buscar(["idcompra" => $idCompra]);
+    $compraEstado = null;
+
+    // Buscar el estado actual de la compra
+    foreach ($compras as $compra) {
+      if ($compra->getidcompra() == $idCompra) {
+        $compraEstado = [
+          "idcompraestado" => $compra->getidcompraestado(),
+          "idcompra" => $compra->getidcompra(),
+          "idcompraestadotipo" => $compra->getidcompraestadotipo(),
+          "cefechaini" => $compra->getcefechaini(),
+          "cefechafin" => $compra->getcefechafin(),
+        ];
+        break;
+      }
+    }
+
+    // Verificar si se encontró el estado y si no está ya cancelada
+    if ($compraEstado !== null && $compraEstado['idcompraestadotipo'] != 4) {
+      // Actualizar a estado "cancelado"
+      $compraEstado['idcompraestadotipo'] = 4;
+
+      $modificacionExitosa = $this->modificacion($compraEstado);
+
+      if ($modificacionExitosa) {
+        $response["success"] = true;
+        $response["message"] = "Compra cancelada exitosamente.";
+      } else {
+        $response["message"] = "No se pudo modificar el estado de la compra.";
+      }
+    } elseif ($compraEstado !== null && $compraEstado['idcompraestadotipo'] == 4) {
+      $response["message"] = "La compra ya está cancelada.";
+    } else {
+      $response["message"] = "No se encontró el estado de la compra.";
+    }
+
+    return $response;
+  }
+
+
   public function abm($datos)
   {
     $resp = false;
