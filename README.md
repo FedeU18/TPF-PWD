@@ -1,3 +1,11 @@
+Instalar composer
+-composer install
+
+Descargas de Librerias x Composer
+
+-composer require phpmailer/phpmailer
+-composer require stripe/stripe-php
+
 Cosas por hacer
 
 -Estructura. Fede - TERMINADO
