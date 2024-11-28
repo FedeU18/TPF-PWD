@@ -21,7 +21,7 @@ Cliente
 -Lógica post pago. Fede - TERMINADO
 
 Administrador
--Listado de productos (Crear, modificar y eliminar) Joaquin, en proceso
+-Listado de productos (Crear, modificar y eliminar) Joaquin, en proceso, Joaquin,  TERMINADO
 -Listado de usuarios (Eliminar) Ema - TERMINADO
 
 Deposito
@@ -29,4 +29,4 @@ Deposito
 -Manejo de el estado de compras. Ema - TERMINADO
 -Cambiar el estado de la compra, envío de mail. Ema - TERMINADO
 
--Vista según el rol. Fede - en proceso
+-Vista según el rol. Fede - TERMINADO
